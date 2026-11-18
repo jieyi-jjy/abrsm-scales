@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ABRSM 钢琴音阶与琶音 1–8 级备考：指法、合手键盘、速度参考、记忆总表和抽查。">
+</head>
+<body>
+<title>ABRSM 音阶琶音备考</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!-- loaded without blocking: where Google Fonts is unreachable (e.g. mainland China) the page renders at once with system fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Layout: a working tool. Circle of fifths (pick a key) beside the key's signature card,
+   then a full-width band with two four-octave keyboards (RH / LH), then a one-octave table and rules. */
+:root{
+  --bg:#eef1f5; --surface:#ffffff; --sunken:#e3e8ef;
+  --ink:#17202e; --muted:#566275; --line:#cfd6e0;
+  --sharp:#c2500a; --sharp-soft:#fde3cf;
+  --flat:#1766b3; --flat-soft:#d6e8fa;
+  --thumb:#0b7a6e; --thumb-ink:#ffffff;
+  --finger:#26313f; --finger-ink:#ffffff;
+  --hit:#f2c230;
+  --sel:#17202e; --sel-ink:#ffffff;
+  --key-white:#fbfbf8; --key-black:#232a35; --key-edge:#8f99a8; --key-idle:#59616e;
+  --display:"Space Grotesk","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --body:"Inter","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151c; --surface:#1a212b; --sunken:#242d39;
+    --ink:#e8edf3; --muted:#9aa6b6; --line:#333e4c;
+    --sharp:#f08a45; --sharp-soft:#4a2c17;
+    --flat:#5aa9ec; --flat-soft:#17344f;
+    --thumb:#2bb5a5; --thumb-ink:#06211e;
+    --finger:#dfe5ec; --finger-ink:#17202e;
+    --hit:#f2c230;
+    --sel:#e8edf3; --sel-ink:#10151c;
+    --key-white:#e9ebe6; --key-black:#0c1016; --key-edge:#5b6573; --key-idle:#3a4350;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151c; --surface:#1a212b; --sunken:#242d39;
+  --ink:#e8edf3; --muted:#9aa6b6; --line:#333e4c;
+  --sharp:#f08a45; --sharp-soft:#4a2c17;
+  --flat:#5aa9ec; --flat-soft:#17344f;
+  --thumb:#2bb5a5; --thumb-ink:#06211e;
+  --finger:#dfe5ec; --finger-ink:#17202e;
+  --hit:#f2c230;
+  --sel:#e8edf3; --sel-ink:#10151c;
+  --key-white:#e9ebe6; --key-black:#0c1016; --key-edge:#5b6573; --key-idle:#3a4350;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.2}
+h1{font-size:clamp(26px,4vw,36px);letter-spacing:-.01em}
+h2{font-size:20px}
+h3{font-size:16px}
+p{margin:0}
+.en{color:var(--muted)}
+.lede{max-width:66ch;display:flex;flex-direction:column;gap:4px;margin-top:10px}
+.label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sec-head{display:flex;flex-direction:column;gap:2px;margin-bottom:14px}
+.sec-head .en{font-size:14px}
+
+/* top: circle + key card */
+.top{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:820px){.top{grid-template-columns:minmax(0,1fr)}}
+.circle-box{min-width:0}
+#circle{width:100%;max-width:400px;display:block;margin:0 auto}
+#circle .wedge{cursor:pointer;outline:none}
+#circle .wedge path{fill:var(--surface);stroke:var(--line);stroke-width:1}
+#circle .wedge.min path{fill:var(--sunken)}
+#circle .wedge text{fill:var(--ink);font-family:var(--display);font-weight:600;pointer-events:none}
+#circle .wedge .cnt{font-family:var(--body);font-weight:500;font-size:10px;fill:var(--muted)}
+#circle .wedge:hover path{stroke:var(--ink);stroke-width:2}
+#circle .wedge:focus-visible path{stroke:var(--thumb);stroke-width:3}
+#circle .wedge.pair path{stroke:var(--ink);stroke-width:1.5}
+#circle .wedge.sel path{fill:var(--sel);stroke:var(--sel)}
+#circle .wedge.sel text,#circle .wedge.sel .cnt{fill:var(--sel-ink)}
+#circle .hub{fill:var(--muted);font-size:10px;font-family:var(--body)}
+#circle .hub.big{fill:var(--ink);font-size:22px;font-family:var(--display);font-weight:700}
+.circle-cap{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--muted);margin-top:8px;max-width:400px;margin-inline:auto}
+.circle-cap .s{color:var(--sharp);font-weight:600}.circle-cap .f{color:var(--flat);font-weight:600}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.keycard{display:flex;flex-direction:column;gap:16px}
+.keyname{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.keyname b{font-family:var(--display);font-size:30px;line-height:1.1}
+.keyname span{font-size:17px;color:var(--muted)}
+.sigrow{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center}
+#staff{width:210px;max-width:100%;height:auto;flex:none}
+#staff line{stroke:var(--ink);stroke-width:1}
+#staff text{fill:var(--ink)}
+.sigtext{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sigtext .big{font-family:var(--display);font-weight:600;font-size:18px}
+.order{display:flex;flex-direction:column;gap:6px}
+.chips{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.chip{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:13px;
+  border:1px solid var(--line);color:var(--muted);background:transparent}
+.chip.s{background:var(--sharp);border-color:var(--sharp);color:#fff}
+.chip.f{background:var(--flat);border-color:var(--flat);color:#fff}
+.arrow{font-size:12.5px;font-weight:600;white-space:nowrap}
+.arrow.s{color:var(--sharp)}.arrow.f{color:var(--flat)}
+.rel{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+button{font:inherit;color:inherit}
+.relbtn{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;
+  display:flex;flex-direction:column;gap:1px;min-width:0}
+.relbtn:hover{border-color:var(--ink)}
+.relbtn small{font-size:11.5px;color:var(--muted)}
+.relbtn b{font-family:var(--display);font-size:15px}
+.linkbtn{background:none;border:none;padding:0;color:var(--flat);cursor:pointer;text-decoration:underline;font-size:13px;text-align:left}
+:focus-visible{outline:2px solid var(--thumb);outline-offset:2px}
+
+.pick{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.pickrow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+.pickrow>.label{flex:0 0 190px}
+@media (max-width:640px){.pickrow>.label{flex-basis:100%}}
+.kb .start{fill:var(--thumb);font-size:10px;text-anchor:middle;pointer-events:none}
+.speed{font-size:13px;color:var(--muted);margin:12px 0 4px}
+.glist{display:flex;flex-direction:column}
+.srow{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) minmax(0,240px);gap:6px 16px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+@media (max-width:760px){.srow{grid-template-columns:minmax(0,1fr)}}
+.scat{display:flex;flex-direction:column}
+.scat b{font-family:var(--display)}
+.scat .en,.sreq .en{font-size:12.5px}
+.sreq{font-size:13px;display:flex;flex-direction:column}
+.schips{display:flex;flex-wrap:wrap;gap:6px}
+.kchip{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 11px;cursor:pointer;font-family:var(--display);font-weight:600;font-size:13.5px}
+.kchip:hover{border-color:var(--ink)}
+.kchip.plain{cursor:default;border-style:dashed;color:var(--muted)}
+.kchip.plain:hover{border-color:var(--line)}
+.snote{font-size:12.5px;color:var(--muted);flex-basis:100%}
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:16px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.seg button{border:none;background:transparent;padding:7px 12px;cursor:pointer;font-size:13.5px;line-height:1.25;text-align:center}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button small{display:block;font-size:11px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--sel);color:var(--sel-ink)}
+.seg button[aria-pressed="true"] small{color:var(--sel-ink);opacity:.75}
+.play{background:var(--thumb);color:var(--thumb-ink);border:none;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer}
+.tempo{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 14px;font-size:13px;color:var(--muted);flex:1 1 340px;min-width:0}
+.tlabel{padding-top:1px}
+.tslide{position:relative;flex:1 1 220px;min-width:200px;max-width:460px;padding-bottom:30px}
+.tslide input{width:100%;display:block;margin:0;accent-color:var(--thumb)}
+.ticks{position:absolute;left:0;right:0;top:21px;height:28px;pointer-events:none}
+.tick{position:absolute;top:0;transform:translateX(-50%);font-size:10.5px;font-weight:700;line-height:1;display:flex;flex-direction:column;align-items:center;color:var(--muted)}
+.tick::before{content:"";width:1.5px;height:5px;background:currentColor;margin-bottom:1px}
+.tick.ev::before{height:16px}
+.tick.met{color:var(--thumb)}
+.tread{flex:1 1 210px;line-height:1.4;min-width:0}
+.tread b{color:var(--ink);font-family:var(--display);font-size:15px}
+.jump{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;flex-basis:100%}
+.jump .seg button{padding:4px 9px;font-size:12.5px}
+.ghost{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 13px;cursor:pointer;font-size:13.5px}
+.ghost:hover{border-color:var(--ink)}
+.ghost[aria-pressed="true"]{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.ftitle{display:none}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+@media (min-height:720px){
+  .controls{position:sticky;top:0;z-index:5;background:var(--surface);padding:10px 0;border-bottom:1px solid var(--line)}
+}
+#kb-tg{margin-inline:auto}
+
+/* focus view: only the controls and the hands-together keyboard, sized to the screen */
+body.focus .wrap{max-width:none;padding-block:0;gap:0}
+body.focus .wrap>*:not(#player){display:none}
+body.focus #player{height:100vh;height:100dvh;border:none;border-radius:0;padding:8px 0;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+body.focus #player>.sec-head,body.focus #player>.pick,body.focus #player>.summary,
+body.focus #player>.hand:not(.together),body.focus #player>.legend{display:none}
+body.focus .controls{margin:0;position:static;padding:0;border:none;background:none;gap:6px 12px}
+body.focus .ftitle{display:block;flex:1 1 150px;min-width:0;font-family:var(--display);font-weight:600;font-size:15px;line-height:1.25}
+body.focus .ftitle small{display:block;font-family:var(--body);font-weight:400;font-size:12px;color:var(--muted)}
+body.focus .hand.together{flex:1;min-height:0;border:none;padding:0;margin:0}
+body.focus .hand.together>.hand-title,body.focus .hand.together>.label,body.focus #tg-note{display:none}
+body.focus .hand.together>.kbscroll{flex:1;min-height:0;overflow:hidden;display:flex;padding:4px;background:var(--surface)}
+body.focus #kb-tg{flex:1;min-width:0!important;max-width:none!important;width:auto;height:auto;min-height:0}
+@media (max-height:560px){
+  body.focus .hand.together>.tscroll,body.focus .hand.together>.legend,body.focus .jump,body.focus .tlabel{display:none}
+  body.focus .tslide{padding-bottom:26px}
+}
+
+/* memory chart */
+:root{--g1:#d9efe9;--g2:#e9e2f6;--g3:#f7ecc9}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--g1:#17393a;--g2:#30284a;--g3:#40371a}}
+:root[data-theme="dark"]{--g1:#17393a;--g2:#30284a;--g3:#40371a}
+table.mem th{line-height:1.25;vertical-align:bottom}
+table.mem th small{display:block;font-weight:400}
+table.mem th:first-child,table.mem td:first-child{position:sticky;left:0;background:var(--surface);z-index:1}
+table.mem td{font-size:14px}
+table.mem .mkey{font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+table.mem td.fs{font-family:var(--display);font-weight:600;font-size:15.5px;letter-spacing:.14em}
+table.mem td.fs .t{color:var(--thumb)}
+table.mem td.fs .f4{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
+table.mem td.g1{background:var(--g1)} table.mem td.g2{background:var(--g2)} table.mem td.g3{background:var(--g3)}
+table.mem td.mn{font-family:var(--display);font-weight:500;text-align:left}
+table.mem .s{color:var(--sharp)} table.mem .f{color:var(--flat)}
+table.mem td.sg{font-weight:600}
+
+/* spot check */
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer}
+.chk input{accent-color:var(--thumb);width:16px;height:16px;margin:0}
+.qcard{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.qen{font-family:var(--display);font-weight:700;font-size:clamp(20px,3.4vw,28px);line-height:1.2;text-wrap:balance}
+.qzh{font-size:16px}
+.qmeta{font-size:13px;color:var(--muted)}
+.qbtns{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:6px}
+.mark{border:none;border-radius:8px;padding:11px 18px;font-weight:600;cursor:pointer}
+.mark.ok{background:var(--thumb);color:var(--thumb-ink)}
+.mark.no{background:var(--sharp);color:var(--sel-ink)}
+.qwrong{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.qwrong div{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.qstats{display:flex;flex-direction:column;gap:6px}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) 80px 110px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.qrow .en{font-size:12.5px}
+.qrow .num{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.bar{height:6px;background:var(--sunken);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--thumb)}
+@media (max-width:520px){.qrow{grid-template-columns:minmax(0,1fr) 50px 96px}}
+
+.summary{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.summary .line{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.note{display:inline-block;font-family:var(--display);font-weight:600;padding:1px 8px;border-radius:6px;background:var(--sunken)}
+.note.s{background:var(--sharp-soft);color:var(--sharp)}
+.note.f{background:var(--flat-soft);color:var(--flat)}
+
+.hand{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.hand-title{display:flex;gap:10px;align-items:baseline}
+.hand-title b{font-family:var(--display);font-size:15px}
+.kbscroll{overflow-x:auto;border-radius:8px;border:1px solid var(--line);background:var(--sunken);padding:8px}
+.kbscroll svg{display:block;width:100%;min-width:700px;height:auto}
+.kb .w{fill:var(--key-white);stroke:var(--key-edge);stroke-width:1;cursor:pointer}
+.kb .b{fill:var(--key-idle);stroke:var(--key-black);stroke-width:1;cursor:pointer}
+.kb .w.s{fill:var(--sharp-soft)} .kb .w.f{fill:var(--flat-soft)}
+.kb .b.s{fill:var(--sharp)} .kb .b.f{fill:var(--flat)}
+.kb .w.on,.kb .b.on{fill:var(--hit)}
+.kb .badge circle{fill:var(--finger)} .kb .badge text{fill:var(--finger-ink)}
+.kb .badge.t circle{fill:var(--thumb)} .kb .badge.t text{fill:var(--thumb-ink)}
+.kb .badge.onb circle{stroke:#fff;stroke-width:1.2}
+.kb .badge{pointer-events:none}
+.kb .badge rect{fill:var(--finger)} .kb .badge.t rect{fill:var(--thumb)}
+.kb .badge.onb rect{stroke:#fff;stroke-width:1.2}
+.hand.together{border-top:1px solid var(--line);padding-top:16px;margin-top:4px}
+table.steps td,table.steps th{padding:6px 7px}
+table.steps td.both{background:var(--sunken)}
+table.steps td.now,table.steps th.now{background:var(--hit);color:#17202e}
+table.steps td.now.t{color:#17202e}
+.kb .badge text{font-family:var(--display);font-weight:700;font-size:12px;text-anchor:middle;dominant-baseline:central}
+.kb .oct{fill:var(--muted);font-size:9px;text-anchor:middle;font-family:var(--body);pointer-events:none}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:5px}
+.legend i.sq{border-radius:3px}
+
+/* table */
+.two{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:20px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
+.tscroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:8px 6px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;font-size:12.5px;color:var(--muted);font-weight:500;padding-right:12px}
+thead th{font-size:12px;color:var(--muted);font-weight:500}
+td.nn{font-family:var(--display);font-weight:600;font-size:16px}
+td.nn.s{color:var(--sharp)} td.nn.f{color:var(--flat)}
+td.nn sup{font-size:10px;font-family:var(--body);margin-left:1px}
+td.fg{font-family:var(--display);font-weight:600;font-size:16px}
+td.fg.t{color:var(--thumb)}
+tbody tr:last-child td{border-bottom:none}
+.foot{font-size:12.5px;color:var(--muted);margin-top:10px;display:flex;flex-direction:column;gap:4px}
+.tips{display:flex;flex-direction:column;gap:12px}
+.tip{display:flex;flex-direction:column;gap:1px}
+.tip .zh{font-weight:500}
+.tip .en{font-size:13.5px}
+
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px 32px}
+.rule{display:flex;flex-direction:column;gap:5px;min-width:0}
+.rule .en{font-size:13.5px}
+.rule h3{margin-bottom:2px}
+@media (prefers-reduced-motion: no-preference){ .kb .w,.kb .b{transition:fill .08s} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="label">钢琴 · Piano</div>
+    <h1>ABRSM 音阶琶音备考 <span class="en">Scales &amp; Arpeggios Prep</span></h1>
+    <div class="lede">
+      <p>在五度圈上点一个调，就能看到它的调号、要升或降的音，以及四个八度里每个音用哪根手指。</p>
+      <p class="en">Pick a key on the circle of fifths to see its key signature, which notes are sharp or flat, and the finger for every note across four octaves.</p>
+    </div>
+    <nav class="nav" id="nav" aria-label="页面导航 Sections">
+      <button class="ghost" data-go="player">键盘 Keyboards</button>
+      <button class="ghost" data-go="quiz">抽查 Spot check</button>
+      <button class="ghost" data-go="chart">记忆总表 Memory chart</button>
+      <button class="ghost" data-go="syllabus">考纲 Syllabus</button>
+    </nav>
+  </header>
+
+  <section class="top">
+    <div class="circle-box">
+      <svg id="circle" viewBox="0 0 360 360" role="group" aria-label="五度圈 Circle of fifths"></svg>
+      <div class="circle-cap">
+        <span class="f">← 逆时针：多一个降号<br>Counter-clockwise: one more flat</span>
+        <span class="s" style="text-align:right">顺时针：多一个升号 →<br>Clockwise: one more sharp</span>
+      </div>
+    </div>
+    <div class="card keycard">
+      <div>
+        <div class="label">当前的调 · Selected key</div>
+        <div class="keyname"><b id="kn-zh"></b><span id="kn-en"></span></div>
+        <button class="linkbtn" id="enh" hidden></button>
+      </div>
+      <div class="sigrow">
+        <svg id="staff" viewBox="0 0 210 100" aria-hidden="true"></svg>
+        <div class="sigtext">
+          <div class="label">调号 · Key signature</div>
+          <div class="big" id="sig-count"></div>
+          <div id="sig-notes"></div>
+        </div>
+      </div>
+      <div class="order">
+        <div class="label">升降号出现的顺序 · Order of sharps and flats</div>
+        <div class="chips" id="chips"></div>
+        <div class="en" style="font-size:13px" id="order-note"></div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:6px">近关系调 · Related keys</div>
+        <div class="rel" id="rel"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="player">
+    <div class="sec-head">
+      <h2 id="kb-title"></h2>
+      <p class="en" id="kb-sub"></p>
+    </div>
+    <div class="pick">
+      <div class="pickrow"><span class="label">在这个调里 · In this key</span><div class="seg" id="kind-key" role="group" aria-label="调内练习 Patterns in this key"></div></div>
+      <div class="pickrow"><span class="label">按起始音 · From a starting note</span><div class="seg" id="kind-start" role="group" aria-label="按起始音的练习 Patterns from a starting note"></div></div>
+      <div class="pickrow" id="row-form" hidden><span class="label">小调形式 · Minor form</span><div class="seg" id="form" role="group" aria-label="小调形式 Minor form"></div>
+        <div class="seg" id="dir" role="group" aria-label="方向 Direction" hidden>
+          <button id="dir-asc" data-dir="asc">上行<small>Ascending</small></button>
+          <button id="dir-desc" data-dir="desc">下行<small>Descending</small></button>
+        </div></div>
+      <div class="pickrow" id="row-inv" hidden><span class="label">转位 · Inversion</span><div class="seg" id="inv" role="group" aria-label="转位 Inversion"></div></div>
+      <div class="pickrow" id="row-chrom" hidden><span class="label">半音阶的弹法 · Chromatic layout</span><div class="seg" id="chrom" role="group" aria-label="半音阶的弹法 Chromatic layout"></div></div>
+      <div class="pickrow" id="row-start" hidden><span class="label" id="start-label">起始音 · Starting note</span><div class="seg" id="start" role="group" aria-label="起始音 Starting note"></div></div>
+    </div>
+    <div class="controls" id="controls">
+      <span class="ftitle" id="ftitle"></span>
+      <button class="play" id="play">▶ 播放 Play</button>
+      <button class="ghost" id="focus">专注视图 Focus view</button>
+      <div class="tempo">
+        <label class="tlabel" for="tempo">速度 Tempo</label>
+        <div class="tslide">
+          <input id="tempo" type="range" min="60" max="400" value="200" step="2">
+          <div class="ticks" id="ticks" aria-hidden="true"></div>
+        </div>
+        <div class="tread" id="tread" aria-live="polite"></div>
+        <div class="jump"><span id="jump-label"></span><div class="seg" id="jump" role="group" aria-label="跳到考试速度 Jump to exam speed"></div></div>
+      </div>
+    </div>
+    <div class="summary" id="summary"></div>
+
+    <div class="hand">
+      <div class="hand-title"><b>右手 Right hand</b><span class="en" style="font-size:13px" id="rh-sub"></span></div>
+      <div class="kbscroll"><svg class="kb" id="kb-rh"></svg></div>
+    </div>
+    <div class="hand">
+      <div class="hand-title"><b>左手 Left hand</b><span class="en" style="font-size:13px" id="lh-sub"></span></div>
+      <div class="kbscroll"><svg class="kb" id="kb-lh"></svg></div>
+    </div>
+    <div class="hand together">
+      <div class="hand-title"><b>合手 Hands together</b><span class="en" style="font-size:13px" id="tg-sub"></span></div>
+      <div class="kbscroll"><svg class="kb" id="kb-tg"></svg></div>
+      <div class="legend">
+        <span><i style="background:var(--finger)"></i>圆形 = 右手 · Circle = right hand</span>
+        <span><i class="sq" style="background:var(--finger)"></i>方形 = 左手 · Square = left hand</span>
+        <span><i style="background:var(--thumb)"></i><i class="sq" style="background:var(--thumb)"></i>绿色 = 拇指 · Green = thumb</span>
+      </div>
+      <div class="label" style="margin-top:8px">每一步两手同时用的手指 · Fingers that play together at each step</div>
+      <div class="tscroll"><table id="tg-tbl" class="steps"></table></div>
+      <div class="en" style="font-size:12.5px" id="tg-note"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--thumb)"></i>1 指（拇指）Thumb：换指的位置 where the hand shifts</span>
+      <span><i style="background:var(--finger)"></i>2–5 指 Fingers 2–5</span>
+      <span><i class="sq" style="background:var(--sharp)"></i>升的音 Sharp</span>
+      <span><i class="sq" style="background:var(--flat)"></i>降的音 Flat</span>
+      <span><b style="color:var(--thumb)">▲</b> 起始音 Starting note</span>
+      <span>点琴键可以听音 · Click a key to hear it</span>
+    </div>
+  </section>
+
+  <section class="two">
+    <div class="card">
+      <div class="sec-head"><h2>每个音用哪根手指 <span class="en">Finger for each note</span></h2></div>
+      <div class="tscroll"><table id="tbl"></table></div>
+      <div class="foot" id="foot"></div>
+    </div>
+    <div class="card">
+      <div class="sec-head"><h2>记忆要点 <span class="en">What to remember</span></h2></div>
+      <div class="tips" id="tips"></div>
+    </div>
+  </section>
+
+  <section class="card" id="quiz">
+    <div class="sec-head">
+      <h2>抽查 <span class="en">Spot check</span></h2>
+      <p>选一个级别，页面像考官一样出题。在钢琴上弹完，自己标记弹对还是弹错；弹错的题之后会更常被抽到。</p>
+      <p class="en">Choose a grade and the page asks for scales the way an examiner would. Play it at the piano, then mark yourself; anything you miss comes up more often.</p>
+    </div>
+    <div class="pick">
+      <div class="pickrow"><span class="label">级别 · Grade</span><div class="seg" id="qgrade" role="group" aria-label="级别 Grade"></div></div>
+      <div class="pickrow"><span class="label">方式 · Mode</span><div class="seg" id="qmode" role="group" aria-label="方式 Mode"></div>
+        <label class="chk"><input type="checkbox" id="qspeak"> 英文读题 Read the question aloud</label></div>
+    </div>
+    <div class="qcard" id="qcard"></div>
+    <div class="qstats" id="qstats"></div>
+  </section>
+
+  <section class="card" id="chart">
+    <div class="sec-head">
+      <h2>记忆要点总表 <span class="en">Memory chart</span></h2>
+      <p>一行一个调，把升降号、两只手的指法和最值得记的抓手放在一起。点调名可以在键盘上看。</p>
+      <p class="en">One row per key: key signature, both hands' fingering and the hooks worth memorising. Click a key name to see it on the keyboards.</p>
+    </div>
+    <div class="seg" id="mtab" role="group" aria-label="总表类型 Chart type"></div>
+    <div class="foot" id="mhint" style="margin:12px 0"></div>
+    <div class="tscroll"><table id="mtbl" class="mem"></table></div>
+    <div class="legend" style="margin-top:12px">
+      <span><b style="color:var(--thumb)">1</b> 绿色 = 拇指 · green = thumb</span>
+      <span><b style="text-decoration:underline;text-underline-offset:3px">4</b> 下划线 = 4 指 · underlined = 4th finger</span>
+      <span><i class="sq" style="background:var(--g1);border:1px solid var(--line)"></i><i class="sq" style="background:var(--g2);border:1px solid var(--line)"></i>同色的格子 = 指法完全相同 · same colour = identical fingering</span>
+      <span>指法从低到高写一个八度 · fingering written low to high over one octave</span>
+    </div>
+  </section>
+
+  <section class="card" id="syllabus">
+    <div class="sec-head">
+      <h2>ABRSM 各级考试内容 <span class="en">ABRSM requirements by grade</span></h2>
+      <p>点任意一项，上面的键盘就会显示它的音和指法。</p>
+      <p class="en">Click any item to load its notes and fingering on the keyboards above.</p>
+    </div>
+    <div class="seg" id="grade" role="group" aria-label="级别 Grade"></div>
+    <div id="speed" class="speed"></div>
+    <div id="glist" class="glist"></div>
+    <div class="foot">
+      <span>通用要求：全部背谱，不用踏板，除注明外一律连奏；"双手"时两手相隔一个八度。属七琶音最后要解决到主音。三度相距的音阶主音在下方，六度相距的主音在上方。考纲不规定指法，任何能弹好的指法都可以。</span>
+      <span>General rules: from memory, no pedal, legato unless stated; hands together means an octave apart. Dominant sevenths finish by resolving on the tonic. Scales a third apart start with the tonic as the lower note, scales a sixth apart with the tonic as the upper note. ABRSM accepts any fingering that works.</span>
+      <span>来源 Source: ABRSM Piano Practical Grades syllabus 2025 &amp; 2026. 报考前请以 ABRSM 官方考纲为准 · check the official syllabus before entering.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>各调之间的规律 <span class="en">How the keys relate</span></h2></div>
+    <div class="rules">
+      <div class="rule">
+        <h3>顺时针，多一个升号</h3>
+        <p>每往上一个纯五度（C→G→D…），多一个升号。新加的升号总是新调的第 7 级音：G 大调的 F♯，D 大调的 C♯。</p>
+        <p class="en">Each step up a perfect fifth adds one sharp. The new sharp is always the 7th degree of the new key: F♯ in G major, C♯ in D major.</p>
+      </div>
+      <div class="rule">
+        <h3>逆时针，多一个降号</h3>
+        <p>每往下一个纯五度（C→F→B♭…），多一个降号。新加的降号总是新调的第 4 级音：F 大调的 B♭，B♭ 大调的 E♭。</p>
+        <p class="en">Each step down a fifth adds one flat. The new flat is always the 4th degree of the new key: B♭ in F major, E♭ in B♭ major.</p>
+      </div>
+      <div class="rule">
+        <h3>升降号的固定顺序</h3>
+        <p>升号永远按 F C G D A E B 出现，降号正好倒过来：B E A D G C F。有 3 个升号，就一定是 F♯ C♯ G♯。</p>
+        <p class="en">Sharps always arrive as F C G D A E B; flats in the reverse order, B E A D G C F. Three sharps are always F♯ C♯ G♯.</p>
+      </div>
+      <div class="rule">
+        <h3>关系大小调共用调号</h3>
+        <p>大调主音往下数小三度（3 个半音）就是它的关系小调：C 大调 ↔ A 小调。两者调号完全相同，在五度圈上内外相对。</p>
+        <p class="en">A minor third (3 semitones) below a major tonic is its relative minor: C major ↔ A minor. They share one key signature and sit opposite each other on the two rings.</p>
+      </div>
+      <div class="rule">
+        <h3>三种小调</h3>
+        <p>自然小调只用调号。和声小调把第 7 级升高半音。旋律小调上行升高第 6、7 级，下行还原成自然小调。</p>
+        <p class="en">Natural minor uses only the key signature. Harmonic minor raises the 7th. Melodic minor raises the 6th and 7th going up and returns to natural minor coming down.</p>
+      </div>
+      <div class="rule">
+        <h3>指法的骨架：3 + 4</h3>
+        <p>每个八度 7 个音，分成一组 3 个（1-2-3）和一组 4 个（1-2-3-4）。拇指只弹白键；4 指每个八度只用一次，记住它落在哪个音，整条音阶的指法就定了。</p>
+        <p class="en">Seven notes per octave split into a group of three (1-2-3) and a group of four (1-2-3-4). The thumb stays on white keys. Finger 4 plays once per octave, so knowing its note fixes the whole fingering.</p>
+      </div>
+      <div class="rule">
+        <h3>降号大调的口诀</h3>
+        <p>F、B♭、E♭、A♭、D♭ 大调：右手 4 指永远落在 B♭。B♭、E♭、A♭、D♭ 大调：左手 4 指落在第 4 级音（也就是最新加的那个降号）。</p>
+        <p class="en">In F, B♭, E♭, A♭ and D♭ major the right-hand 4th finger always lands on B♭. In B♭, E♭, A♭ and D♭ major the left-hand 4th finger lands on the 4th degree, the newest flat.</p>
+      </div>
+      <div class="rule">
+        <h3>反向音阶</h3>
+        <p>两手从同一个主音出发，右手向上、左手向下。每只手的指法和平时完全一样：右手用上行指法，左手用下行指法。C、G、D、A、E 大调里两手恰好镜像，每一步都用同一根手指。</p>
+        <p class="en">Both hands start on the same tonic; the right goes up, the left goes down. Each hand keeps its usual fingering. In C, G, D, A and E major the hands mirror each other, using the same finger at every step.</p>
+      </div>
+      <div class="rule">
+        <h3>三度相距与六度相距</h3>
+        <p>两手弹同一条音阶，只是起点不同。三度相距：左手在主音，右手高三度。六度相距：右手在主音，左手低六度。每只手的指法仍然跟着音走，不跟着起点走。</p>
+        <p class="en">Both hands play the same scale from different starting notes. A third apart: left hand on the tonic, right hand a third higher. A sixth apart: right hand on the tonic, left hand a sixth lower. The fingering follows the notes, not the starting point.</p>
+      </div>
+      <div class="rule">
+        <h3>半音阶</h3>
+        <p>黑键一律用 3 指，白键用拇指。连续两个白键时多用一个 2 指：右手在 C 和 F，左手在 E 和 B。从哪个音开始都一样。</p>
+        <p class="en">Every black key takes finger 3 and white keys take the thumb. Where two white keys are adjacent, finger 2 joins in: on C and F in the right hand, on E and B in the left. It works from any starting note.</p>
+      </div>
+      <div class="rule">
+        <h3>全音阶</h3>
+        <p>每一步都是全音，一个八度只有 6 个音。总共只有两条：C D E F♯ G♯ A♯ 和 D♭ E♭ F G A B。</p>
+        <p class="en">Every step is a whole tone, six notes per octave. There are only two of them: C D E F♯ G♯ A♯ and D♭ E♭ F G A B.</p>
+      </div>
+      <div class="rule">
+        <h3>属七与减七</h3>
+        <p>属七和弦建在调的第 5 级音上（C 大调是 G B D F），弹完要解决到主音。减七和弦全由小三度叠成，所以总共只有 3 组不同的音。四个音的琶音，白键起音时右手 1-2-3-4，左手 5-4-3-2。</p>
+        <p class="en">A dominant seventh is built on the 5th degree (G B D F in C major) and resolves to the tonic. A diminished seventh stacks minor thirds, so only three different sets of notes exist. For four-note arpeggios from a white key: right hand 1-2-3-4, left hand 5-4-3-2.</p>
+      </div>
+      <div class="rule">
+        <h3>琶音</h3>
+        <p>主音在白键上：右手 1-2-3，左手 5-4-2 或 5-3-2（三音离主音远用 3 指）。主音在黑键上：让拇指落在第一个白键上。</p>
+        <p class="en">White-key tonic: right hand 1-2-3, left hand 5-4-2 or 5-3-2 (use 3 when the third is a wide reach). Black-key tonic: place the thumb on the first white key.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+const LET=['C','D','E','F','G','A','B'], LPC=[0,2,4,5,7,9,11];
+const ACC={'-2':'𝄫','-1':'♭','0':'','1':'♯','2':'𝄪'};
+const IV={major:[0,2,4,5,7,9,11],natural:[0,2,3,5,7,8,10],harmonic:[0,2,3,5,7,8,11],melodic:[0,2,3,5,7,9,11]};
+const T=(l,a)=>({l:LET.indexOf(l),a:a||0});
+const MAJORS=[T('C'),T('G'),T('D'),T('A'),T('E'),T('B'),T('F',1),T('D',-1),T('A',-1),T('E',-1),T('B',-1),T('F')];
+const MINORS=[T('A'),T('E'),T('B'),T('F',1),T('C',1),T('G',1),T('E',-1),T('B',-1),T('F'),T('C'),T('G'),T('D')];
+const MAJ_ALT={5:T('C',-1),6:T('G',-1),7:T('C',1)};
+const MIN_ALT={5:T('A',-1),6:T('D',1),7:T('A',1)};
+const SHARP_ORDER=[3,0,4,1,5,2,6]; // F C G D A E B
+// names used when a pattern is defined by its starting note rather than by a key
+const N12=[T('C'),T('C',1),T('D'),T('E',-1),T('E'),T('F'),T('F',1),T('G'),T('G',1),T('A'),T('B',-1),T('B')];
+
+// ---- scale fingerings by tonic pitch class; arrays are per degree and repeat every octave
+const STD={rh:[1,2,3,1,2,3,4],rhEnd:5,lh:[1,4,3,2,1,3,2],lhStart:5};
+const BTYPE={rh:[1,2,3,1,2,3,4],rhEnd:5,lh:[1,3,2,1,4,3,2],lhStart:4};
+const FTYPE={rh:[1,2,3,4,1,2,3],rhEnd:4,lh:[1,4,3,2,1,3,2],lhStart:5};
+const MAJ_F={0:STD,7:STD,2:STD,9:STD,4:STD,11:BTYPE,5:FTYPE,
+  6:{rh:[2,3,4,1,2,3,1],lh:[4,3,2,1,3,2,1]},
+  1:{rh:[2,3,1,2,3,4,1],lh:[3,2,1,4,3,2,1]},
+  8:{rh:[3,4,1,2,3,1,2],lh:[3,2,1,4,3,2,1]},
+  3:{rh:[3,1,2,3,4,1,2],lh:[3,2,1,4,3,2,1]},
+  10:{rh:[4,1,2,3,1,2,3],lh:[3,2,1,4,3,2,1]}};
+const MIN_F={9:STD,4:STD,2:STD,7:STD,0:STD,11:BTYPE,5:FTYPE,
+  6:{rh:[3,4,1,2,3,1,2],lh:[4,3,2,1,3,2,1]},
+  1:{rh:[3,4,1,2,3,1,2],lh:[3,2,1,4,3,2,1]},
+  8:{rh:[3,4,1,2,3,1,2],lh:[3,2,1,4,3,2,1]},
+  3:{rh:[3,1,2,3,4,1,2],lh:[2,1,4,3,2,1,3]},
+  10:{rh:[4,1,2,3,1,2,3],lh:[2,1,3,2,1,4,3]}};
+const MIN_OVR={natural:{8:{lh:[3,2,1,3,2,1,4]}},
+  melAsc:{6:{rh:[2,3,1,2,3,4,1]},1:{rh:[2,3,1,2,3,4,1]}}};
+// ---- root-position triad arpeggios
+const A_W1={rh:[1,2,3],rhEnd:5,lh:[1,4,2],lhStart:5};
+const A_W2={rh:[1,2,3],rhEnd:5,lh:[1,3,2],lhStart:5};
+const A_B1={rh:[4,1,2],rhStart:2,lh:[2,1,4]};
+const ARP_MAJ={0:A_W1,7:A_W1,5:A_W1,2:A_W2,9:A_W2,4:A_W2,11:A_W2,6:A_W2,1:A_B1,8:A_B1,3:A_B1,
+  10:{rh:[4,1,2],rhStart:2,lh:[3,2,1]}};
+const A_B2={rh:[4,1,2],rhStart:2,lh:[4,2,1]};
+const ARP_MIN={9:A_W1,4:A_W1,2:A_W1,7:A_W1,0:A_W1,5:A_W1,11:A_W1,3:A_W1,6:A_B2,1:A_B2,8:A_B2,
+  10:{rh:[2,3,1],lh:[3,2,1]}};
+
+const S={pos:0,minor:false,enh:false,kind:'scale',form:'harmonic',dir:'asc',inv:0,chrom:'similar',start:0,grade:1};
+const $=id=>document.getElementById(id);
+const mod=(a,n)=>((a%n)+n)%n;
+const nm=t=>LET[t.l]+ACC[t.a];
+const pcOf=t=>mod(LPC[t.l]+t.a,12);
+const cls=a=>a>0?'s':a<0?'f':'';
+const isBlack=m=>[1,3,6,8,10].includes(mod(m,12));
+const START_KINDS=['chrom','whole','dim7'];
+
+function tonicAt(pos,minor,enh){
+  const alt=(minor?MIN_ALT:MAJ_ALT)[pos];
+  return enh&&alt?alt:(minor?MINORS:MAJORS)[pos];
+}
+function spell(t,iv){
+  return iv.map((s,i)=>{const l=(t.l+i)%7; const pc=LPC[t.l]+t.a+s; const a=mod(pc-LPC[l]+6,12)-6; return {l,a};});
+}
+function signature(t,minor){
+  const sp=spell(t,minor?IV.natural:IV.major);
+  const sharps=sp.some(n=>n.a>0);
+  const order=sharps?SHARP_ORDER:SHARP_ORDER.slice().reverse();
+  const list=order.filter(l=>sp.find(n=>n.l===l&&n.a!==0));
+  return {sharps,n:list.length,list};
+}
+function keyZh(t,minor){return nm(t)+(minor?' 小调':' 大调')}
+function keyEn(t,minor){return nm(t)+(minor?' minor':' major')}
+
+// ---------- pattern builders. A pattern P repeats every octave:
+// n notes, iv[] semitones above its first note, sp[] spelled names, rh[]/lh[] finger per note,
+// plus optional overrides for the very first / very last note when that note is the pattern's first note.
+function scaleP(t,minor,form,dir){
+  const pc=pcOf(t); let iv,f;
+  if(!minor){iv=IV.major;f=MAJ_F[pc];}
+  else{
+    const eff=form==='melodic'?(dir==='asc'?'melAsc':'natural'):form;
+    iv=form==='melodic'?(dir==='asc'?IV.melodic:IV.natural):IV[form];
+    f=Object.assign({},MIN_F[pc],(MIN_OVR[eff]||{})[pc]||{});
+  }
+  return Object.assign({n:7,pc,iv,sp:spell(t,iv)},f);
+}
+// thumbs go on white keys: RH thumb on the white key that follows a black one, LH thumb on the white key before a black one
+function arpFing(pcs){
+  const n=pcs.length, bl=pcs.map(isBlack), same=bl.every(b=>b===bl[0]);
+  const gap=(i,j)=>mod(pcs[j]-pcs[i],12);
+  let t=0;
+  if(!same&&bl[0]) for(let i=1;i<n;i++) if(!bl[i]&&bl[i-1]){t=i;break;}
+  const rh=Array(n); rh[t]=1;
+  if(n===4) for(let k=1;k<4;k++) rh[(t+k)%n]=k+1;
+  else{const a=(t+1)%n,b=(t+2)%n; rh[a]=2; rh[b]=(bl[a]&&bl[b])?3:(gap(b,t)===5?3:4);}
+  const o={rh};
+  if(t===0) o.rhEnd=5; else if(rh[0]===4) o.rhStart=2;
+  let u=0;
+  if(!same&&bl[0]) for(let i=n-1;i>=1;i--) if(!bl[i]&&bl[(i+1)%n]){u=i;break;}
+  const lh=Array(n); lh[u]=1;
+  if(n===4){lh[(u+1)%n]=4;lh[(u+2)%n]=3;lh[(u+3)%n]=2;}
+  else{const a=(u+1)%n,b=(u+2)%n; lh[b]=2; lh[a]=(bl[a]&&bl[b])?3:(gap(u,a)===5?3:4);}
+  o.lh=lh; if(u===0) o.lhStart=5;
+  return o;
+}
+function triadP(t,minor,inv){
+  const pc=pcOf(t), full=spell(t,minor?IV.natural:IV.major);
+  const iv0=minor?[0,3,7]:[0,4,7], sp0=[full[0],full[2],full[4]];
+  if(!inv) return Object.assign({n:3,pc,iv:iv0,sp:sp0},(minor?ARP_MIN:ARP_MAJ)[pc]);
+  const iv=[0,1,2].map(i=>mod(iv0[(i+inv)%3]-iv0[inv],12)), sp=[0,1,2].map(i=>sp0[(i+inv)%3]);
+  const p0=mod(pc+iv0[inv],12);
+  return Object.assign({n:3,pc:p0,iv,sp},arpFing(iv.map(s=>(p0+s)%12)));
+}
+function dom7P(t,minor){
+  const full=spell(t,minor?IV.harmonic:IV.major), p0=mod(pcOf(t)+7,12), iv=[0,4,7,10];
+  return Object.assign({n:4,pc:p0,iv,sp:[4,6,1,3].map(i=>full[i])},arpFing(iv.map(s=>(p0+s)%12)));
+}
+function dimP(pc){
+  const iv=[0,3,6,9], t=N12[pc];
+  let sp=iv.map((s,i)=>{const l=(t.l+2*i)%7; return {l,a:mod(pc+s-LPC[l]+6,12)-6};});
+  if(sp.some(x=>Math.abs(x.a)>1||(x.a!==0&&!isBlack(LPC[x.l]+x.a)))) sp=iv.map(s=>N12[(pc+s)%12]);
+  return Object.assign({n:4,pc,iv,sp},arpFing(iv.map(s=>(pc+s)%12)));
+}
+const WT=[{rh:{0:1,2:2,4:1,6:2,8:3,10:4},lh:{0:1,2:2,4:1,6:4,8:3,10:2}},
+          {rh:{5:1,7:2,9:3,11:1,1:2,3:3},lh:{3:3,5:2,7:1,9:2,11:1,1:4}}];
+function wholeP(pc){
+  const iv=[0,2,4,6,8,10], w=WT[pc%2], pcs=iv.map(s=>(pc+s)%12);
+  return {n:6,pc,iv,sp:pcs.map(p=>N12[p]),rh:pcs.map(p=>w.rh[p]),lh:pcs.map(p=>w.lh[p])};
+}
+function chromP(pc){
+  const iv=[...Array(12).keys()], pcs=iv.map(s=>(pc+s)%12);
+  const P={n:12,pc,iv,sp:pcs.map(p=>N12[p]),
+    rh:pcs.map(p=>isBlack(p)?3:(p===0||p===5)?2:1),
+    lh:pcs.map(p=>isBlack(p)?3:(p===4||p===11)?2:1)};
+  if(pc===0||pc===5) P.rhStart=1;
+  return P;
+}
+
+function current(){
+  const t=tonicAt(S.pos,S.minor,S.enh), K=S.kind;
+  let P,L;
+  if(['scale','contrary','third','sixth'].includes(K)){
+    P=scaleP(t,S.minor,K==='scale'?S.form:'harmonic',S.dir);
+    L=K==='scale'?{rh:[0,28],lh:[0,28]}:K==='contrary'?{rh:[0,14],lh:[0,-14]}:
+      K==='third'?{rh:[2,30],lh:[0,28]}:{rh:[0,28],lh:[-5,23]};
+  }else if(K==='arp'){P=triadP(t,S.minor,S.inv);L={rh:[0,12],lh:[0,12]};}
+  else if(K==='dom7'){P=dom7P(t,S.minor);L={rh:[0,16],lh:[0,16]};}
+  else if(K==='dim7'){P=dimP(S.start);L={rh:[0,16],lh:[0,16]};}
+  else if(K==='whole'){P=wholeP(S.start);L={rh:[0,24],lh:[0,24]};}
+  else{
+    P=chromP(S.start);
+    L=S.chrom==='similar'?{rh:[0,48],lh:[0,48]}:S.chrom==='contrary'?{rh:[0,24],lh:[0,-24]}:
+      S.chrom==='contraM3'?{rh:[4,28],lh:[0,-24]}:S.chrom==='contram3'?{rh:[3,27],lh:[0,-24]}:{rh:[9,57],lh:[0,48]};
+  }
+  const lowK=Math.min(L.rh[0],L.rh[1],L.lh[0],L.lh[1]);
+  const lowRel=P.pc+12*Math.floor(lowK/P.n)+P.iv[mod(lowK,P.n)];
+  const base=P.pc+12*Math.ceil((31-lowRel)/12);
+  const seq=(hand,LL)=>{
+    const [a,b]=LL[hand], lo=Math.min(a,b), hi=Math.max(a,b), st=a<=b?1:-1, out=[];
+    for(let k=a;;k+=st){
+      const d=mod(k,P.n); let f=P[hand][d];
+      if(d===0){ if(k===lo&&P[hand+'Start'])f=P[hand+'Start']; if(k===hi&&P[hand+'End'])f=P[hand+'End']; }
+      out.push({k,d,midi:base+12*Math.floor(k/P.n)+P.iv[d],sp:P.sp[d],f});
+      if(k===b)break;
+    }
+    return out;
+  };
+  // hands-together view: the first two octaves, with the right hand an octave higher when both start on the same note
+  const half=h=>{const [a,b]=L[h]; return [a,a+Math.sign(b-a)*Math.min(2*P.n,Math.abs(b-a))];};
+  const LT={rh:half('rh'),lh:half('lh')};
+  const shift=(L.rh[0]===L.lh[0]&&L.lh[1]>L.lh[0])?12:0;
+  const tg={rh:seq('rh',LT),lh:seq('lh',LT),shift};
+  tg.rh.forEach(n=>n.midi+=shift);
+  return {t,P,L,rh:seq('rh',L),lh:seq('lh',L),tg};
+}
+
+// ---------- circle
+function wedge(r0,r1,a0,a1){
+  const p=(r,a)=>[(180+r*Math.cos(a)).toFixed(2),(180+r*Math.sin(a)).toFixed(2)];
+  const A=p(r1,a0),B=p(r1,a1),C=p(r0,a1),D=p(r0,a0);
+  return `M${A} A${r1} ${r1} 0 0 1 ${B} L${C} A${r0} ${r0} 0 0 0 ${D} Z`;
+}
+function drawCircle(){
+  let h='';
+  for(let k=0;k<12;k++){
+    const mid=(-90+30*k)*Math.PI/180, a0=mid-Math.PI/12, a1=mid+Math.PI/12;
+    const at=r=>[180+r*Math.cos(mid),180+r*Math.sin(mid)];
+    const n=k<=6?k:12-k, cnt=n===0?'0':n+(k<=6?'♯':'♭');
+    const mj=nm(MAJORS[k])+(k===6?'/G♭':''), mn=nm(MINORS[k])+'m';
+    const selMaj=S.pos===k&&!S.minor, selMin=S.pos===k&&S.minor;
+    let [x,y]=at(141),[cx,cy]=at(164);
+    h+=`<g class="wedge${selMaj?' sel':S.pos===k?' pair':''}" data-pos="${k}" data-minor="0" tabindex="0" role="button" aria-label="${keyZh(MAJORS[k],false)} ${keyEn(MAJORS[k],false)}" aria-pressed="${selMaj}">
+      <path d="${wedge(120,176,a0,a1)}"/><text x="${x}" y="${y}" font-size="${k===6?14:18}" text-anchor="middle" dominant-baseline="central">${mj}</text>
+      <text class="cnt" x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central">${cnt}</text></g>`;
+    [x,y]=at(96);
+    h+=`<g class="wedge min${selMin?' sel':S.pos===k?' pair':''}" data-pos="${k}" data-minor="1" tabindex="0" role="button" aria-label="${keyZh(MINORS[k],true)} ${keyEn(MINORS[k],true)}" aria-pressed="${selMin}">
+      <path d="${wedge(72,120,a0,a1)}"/><text x="${x}" y="${y}" font-size="14" text-anchor="middle" dominant-baseline="central">${mn}</text></g>`;
+  }
+  const sg=signature(tonicAt(S.pos,S.minor,S.enh),S.minor);
+  h+=`<text class="hub big" x="180" y="174" text-anchor="middle">${sg.n===0?'0':sg.n+(sg.sharps?'♯':'♭')}</text>
+      <text class="hub" x="180" y="192" text-anchor="middle">外圈大调 Major</text>
+      <text class="hub" x="180" y="205" text-anchor="middle">内圈小调 Minor</text>`;
+  $('circle').innerHTML=h;
+}
+function pick(pos,minor){
+  S.pos=mod(pos,12); S.enh=false; S.minor=minor; S.dir='asc';
+  if(START_KINDS.includes(S.kind)) S.kind='scale';
+  S.start=pcOf(tonicAt(S.pos,S.minor,false));
+  stop(); render();
+}
+$('circle').addEventListener('click',e=>{const g=e.target.closest('.wedge'); if(g) pick(+g.dataset.pos,g.dataset.minor==='1');});
+$('circle').addEventListener('keydown',e=>{
+  if(e.key!=='Enter'&&e.key!==' ')return; const g=e.target.closest('.wedge'); if(!g)return; e.preventDefault();
+  const pos=g.dataset.pos,m=g.dataset.minor; pick(+pos,m==='1');
+  const again=$('circle').querySelector(`.wedge[data-pos="${pos}"][data-minor="${m}"]`); if(again) again.focus();
+});
+
+// ---------- key card
+function drawKeyCard(){
+  const t=tonicAt(S.pos,S.minor,S.enh), sg=signature(t,S.minor);
+  $('kn-zh').textContent=keyZh(t,S.minor); $('kn-en').textContent=keyEn(t,S.minor);
+  const alt=(S.minor?MIN_ALT:MAJ_ALT)[S.pos], eb=$('enh');
+  if(alt){const o=S.enh?(S.minor?MINORS:MAJORS)[S.pos]:alt;
+    eb.hidden=false; eb.textContent=`同一组琴键也可以写成 ${keyZh(o,S.minor)} · Same keys, also written as ${keyEn(o,S.minor)}`;}
+  else eb.hidden=true;
+  let s='';
+  for(let i=0;i<5;i++) s+=`<line x1="4" x2="206" y1="${30+i*10}" y2="${30+i*10}"/>`;
+  s+=`<text x="6" y="71" font-size="64" font-family="'Noto Music','Apple Symbols','Segoe UI Symbol',serif">𝄞</text>`;
+  const SP={3:8,0:5,4:9,1:6,5:3,2:7,6:4}, FP={6:4,2:7,5:3,1:6,4:2,0:5,3:1};
+  sg.list.forEach((l,i)=>{
+    const step=(sg.sharps?SP:FP)[l], y=70-step*5;
+    s+=sg.sharps?`<text x="${62+i*17}" y="${y}" font-size="24" text-anchor="middle" dominant-baseline="central">♯</text>`
+                :`<text x="${62+i*17}" y="${y-5}" font-size="26" text-anchor="middle" dominant-baseline="central">♭</text>`;
+  });
+  $('staff').innerHTML=s;
+  $('sig-count').textContent=sg.n===0?'没有升降号 · No sharps or flats':
+    sg.sharps?`${sg.n} 个升号 · ${sg.n} sharp${sg.n>1?'s':''}`:`${sg.n} 个降号 · ${sg.n} flat${sg.n>1?'s':''}`;
+  $('sig-notes').innerHTML=sg.list.map(l=>`<span class="note ${sg.sharps?'s':'f'}">${LET[l]}${sg.sharps?'♯':'♭'}</span>`).join(' ')
+    ||'<span class="en">全部是白键 · All white keys</span>';
+  let c='<span class="arrow s">♯ →</span>';
+  SHARP_ORDER.forEach(l=>{const on=sg.list.includes(l); c+=`<span class="chip ${on?(sg.sharps?'s':'f'):''}">${LET[l]}</span>`;});
+  c+='<span class="arrow f">← ♭</span>';
+  $('chips').innerHTML=c;
+  $('order-note').textContent=sg.n===0?'升号从左往右加，降号从右往左加。 Sharps fill from the left, flats from the right.':
+    sg.sharps?`升号从左边开始数 ${sg.n} 个。 Count ${sg.n} from the left.`:`降号从右边开始数 ${sg.n} 个。 Count ${sg.n} from the right.`;
+  const R=[];
+  const add=(zh,en,pos,minor)=>{pos=mod(pos,12); const tt=tonicAt(pos,minor,false);
+    R.push(`<button class="relbtn" data-pos="${pos}" data-minor="${minor?1:0}"><small>${zh} · ${en}</small><b>${keyZh(tt,minor)}</b><small>${keyEn(tt,minor)}</small></button>`);};
+  add(S.minor?'关系大调':'关系小调',S.minor?'Relative major':'Relative minor',S.pos,!S.minor);
+  add(S.minor?'同主音大调':'同主音小调',S.minor?'Parallel major':'Parallel minor',S.pos+(S.minor?3:9),!S.minor);
+  add('属调（上五度）','Dominant',S.pos+1,S.minor);
+  add('下属调（下五度）','Subdominant',S.pos-1,S.minor);
+  $('rel').innerHTML=R.join('');
+}
+$('rel').addEventListener('click',e=>{const b=e.target.closest('.relbtn'); if(b) pick(+b.dataset.pos,b.dataset.minor==='1');});
+$('enh').addEventListener('click',()=>{S.enh=!S.enh; stop(); render();});
+
+// ---------- pattern pickers
+const KINDS={scale:['音阶','Scale'],contrary:['反向音阶','Contrary motion'],third:['三度相距','A third apart'],sixth:['六度相距','A sixth apart'],
+  arp:['琶音','Arpeggio'],dom7:['属七','Dominant 7th'],chrom:['半音阶','Chromatic'],whole:['全音阶','Whole-tone'],dim7:['减七','Diminished 7th']};
+const FORMS={harmonic:['和声','Harmonic'],melodic:['旋律','Melodic'],natural:['自然','Natural']};
+const INVS=[['原位','Root position'],['第一转位','1st inversion'],['第二转位','2nd inversion']];
+const CHROMS={similar:['同向','Similar motion'],contrary:['反向，同音出发','Contrary, from one note'],
+  contram3:['反向，相距小三度','Contrary, a minor 3rd apart'],contraM3:['反向，相距大三度','Contrary, a major 3rd apart'],
+  sixth:['相距大六度','A major 6th apart']};
+const seg=(id,list,cur,attr)=>{$(id).innerHTML=list.map(([k,l])=>
+  `<button id="${id}-${k}" data-${attr}="${k}" aria-pressed="${String(cur)===String(k)}">${l[0]}<small>${l[1]}</small></button>`).join('');};
+function drawPickers(){
+  seg('kind-key',['scale','contrary','third','sixth','arp','dom7'].map(k=>[k,KINDS[k]]),S.kind,'kind');
+  seg('kind-start',START_KINDS.map(k=>[k,KINDS[k]]),S.kind,'kind');
+  const showForm=S.minor&&S.kind==='scale';
+  $('row-form').hidden=!showForm;
+  if(showForm) seg('form',Object.keys(FORMS).map(k=>[k,FORMS[k]]),S.form,'form');
+  $('dir').hidden=!(showForm&&S.form==='melodic');
+  $('dir-asc').setAttribute('aria-pressed',S.dir==='asc'); $('dir-desc').setAttribute('aria-pressed',S.dir==='desc');
+  $('row-inv').hidden=S.kind!=='arp';
+  if(S.kind==='arp') seg('inv',INVS.map((l,i)=>[i,l]),S.inv,'inv');
+  $('row-chrom').hidden=S.kind!=='chrom';
+  if(S.kind==='chrom') seg('chrom',Object.keys(CHROMS).map(k=>[k,CHROMS[k]]),S.chrom,'chrom');
+  const st=START_KINDS.includes(S.kind);
+  $('row-start').hidden=!st;
+  if(st){
+    const two=S.kind==='chrom'&&['contram3','contraM3','sixth'].includes(S.chrom);
+    $('start-label').textContent=two?'左手起始音 · Left-hand starting note':'起始音 · Starting note';
+    $('start').innerHTML=N12.map((t,i)=>`<button id="start-${i}" data-start="${i}" aria-pressed="${S.start===i}">${nm(t)}</button>`).join('');
+  }
+}
+function onSeg(id,attr,fn){$(id).addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; fn(b.dataset[attr]); S.dir='asc'; stop(); render();});}
+onSeg('kind-key','kind',v=>{S.kind=v;});
+onSeg('kind-start','kind',v=>{S.kind=v;});
+onSeg('form','form',v=>{S.form=v;});
+onSeg('inv','inv',v=>{S.inv=+v;});
+onSeg('chrom','chrom',v=>{S.chrom=v;});
+onSeg('start','start',v=>{S.start=+v;});
+$('dir').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; S.dir=b.dataset.dir; stop(); render();});
+
+// ---------- keyboards
+function drawKb(id,cur,hand){
+  const W=24,H=112,BW=15,BH=70, all=cur.rh.concat(cur.lh).map(n=>n.midi);
+  let lo=Math.min(...all), hi=Math.max(...all);
+  if(isBlack(lo))lo--; if(isBlack(hi))hi++;
+  const byMidi={}; cur[hand].forEach(n=>byMidi[n.midi]=n);
+  const startMidi=cur[hand][0].midi;
+  let wx={},x=0,whites='',blacks='',badges='';
+  for(let m=lo;m<=hi;m++) if(!isBlack(m)){wx[m]=x;x+=W;}
+  const total=x;
+  for(let m=lo;m<=hi;m++){
+    const n=byMidi[m], c=n?cls(n.sp.a):'', ttl=n?`<title>${nm(n.sp)}</title>`:'';
+    if(!isBlack(m)){
+      whites+=`<rect class="w ${c}" data-midi="${m}" x="${wx[m]}" y="0" width="${W}" height="${H}" rx="2">${ttl}</rect>`;
+      if(m===startMidi) whites+=`<text class="start" x="${wx[m]+W/2}" y="${H+11}">▲</text>`;
+      else if(m%12===0) whites+=`<text class="oct" x="${wx[m]+W/2}" y="${H+11}">C${m/12-1}</text>`;
+      if(n) badges+=`<g class="badge${n.f===1?' t':''}"><circle cx="${wx[m]+W/2}" cy="${H-16}" r="9"/><text x="${wx[m]+W/2}" y="${H-16}">${n.f}</text></g>`;
+    }else{
+      const bx=wx[m-1]+W-BW/2;
+      blacks+=`<rect class="b ${n?(c||'s'):''}" data-midi="${m}" x="${bx}" y="0" width="${BW}" height="${BH}" rx="2">${ttl}</rect>`;
+      if(m===startMidi) whites+=`<text class="start" x="${bx+BW/2}" y="${H+11}">▲</text>`;
+      if(n) badges+=`<g class="badge onb${n.f===1?' t':''}"><circle cx="${bx+BW/2}" cy="${BH-13}" r="8.5"/><text x="${bx+BW/2}" y="${BH-13}">${n.f}</text></g>`;
+    }
+  }
+  const el=$(id); el.setAttribute('viewBox',`-1 -1 ${total+2} ${H+16}`);
+  el.style.minWidth=Math.round(total*0.95)+'px';
+  el.innerHTML=whites+blacks+badges;
+}
+function drawTogether(cur){
+  const W=24,H=132,BW=15,BH=86, g=cur.tg, all=g.rh.concat(g.lh).map(n=>n.midi);
+  let lo=Math.min(...all), hi=Math.max(...all);
+  if(isBlack(lo))lo--; if(isBlack(hi))hi++;
+  const R={},Lh={}; g.rh.forEach(n=>R[n.midi]=n); g.lh.forEach(n=>Lh[n.midi]=n);
+  let wx={},x=0,whites='',blacks='',badges='';
+  for(let m=lo;m<=hi;m++) if(!isBlack(m)){wx[m]=x;x+=W;}
+  const total=x;
+  const rb=(cx,cy,n,b)=>`<g class="badge${b?' onb':''}${n.f===1?' t':''}"><circle cx="${cx}" cy="${cy}" r="8.5"/><text x="${cx}" y="${cy}">${n.f}</text></g>`;
+  const lb=(cx,cy,n,b)=>`<g class="badge${b?' onb':''}${n.f===1?' t':''}"><rect x="${cx-8}" y="${cy-8}" width="16" height="16" rx="3"/><text x="${cx}" y="${cy}">${n.f}</text></g>`;
+  for(let m=lo;m<=hi;m++){
+    const r=R[m], l=Lh[m], n=r||l, c=n?cls(n.sp.a):'', ttl=n?`<title>${nm(n.sp)}</title>`:'';
+    if(!isBlack(m)){
+      const cx=wx[m]+W/2;
+      whites+=`<rect class="w ${c}" data-midi="${m}" x="${wx[m]}" y="0" width="${W}" height="${H}" rx="2">${ttl}</rect>`;
+      if(m===g.rh[0].midi||m===g.lh[0].midi) whites+=`<text class="start" x="${cx}" y="${H+11}">▲</text>`;
+      else if(m%12===0) whites+=`<text class="oct" x="${cx}" y="${H+11}">C${m/12-1}</text>`;
+      if(r) badges+=rb(cx,H-36,r,false);
+      if(l) badges+=lb(cx,H-14,l,false);
+    }else{
+      const bx=wx[m-1]+W-BW/2, cx=bx+BW/2;
+      blacks+=`<rect class="b ${n?(c||'s'):''}" data-midi="${m}" x="${bx}" y="0" width="${BW}" height="${BH}" rx="2">${ttl}</rect>`;
+      if(m===g.rh[0].midi||m===g.lh[0].midi) whites+=`<text class="start" x="${cx}" y="${H+11}">▲</text>`;
+      if(r) badges+=rb(cx,BH-33,r,true);
+      if(l) badges+=lb(cx,BH-12,l,true);
+    }
+  }
+  const el=$('kb-tg'); el.setAttribute('viewBox',`-1 -1 ${total+2} ${H+16}`);
+  el.style.minWidth=Math.round(total*0.95)+'px'; el.style.maxWidth=Math.round(total*1.9)+'px';
+  el.innerHTML=whites+blacks+badges;
+  const contra=cur.L.lh[1]<cur.L.lh[0], oct=g.rh.length-1>=2*cur.P.n;
+  $('tg-sub').textContent=(oct?'前两个八度':'完整一遍')+(g.shift?'，右手比左手高一个八度':contra?'，两手从 ▲ 向两边分开':'，两手的起点各用 ▲ 标出')
+    +' · '+(oct?'First two octaves':'One full run')+(g.shift?', right hand an octave above the left':contra?', hands moving apart from ▲':', each hand starting at its own ▲');
+  // step table
+  const idx=g.rh.map((_,i)=>i), same=g.rh.every((n,i)=>nm(n.sp)===nm(g.lh[i].sp));
+  const cell=(n,i,k)=>`<td data-j="${i}" class="${k}${g.rh[i].f===1&&g.lh[i].f===1?' both':''}">`;
+  let h='<thead><tr><th>第几步 Step</th>'+idx.map(i=>`<th data-j="${i}">${i+1}</th>`).join('')+'</tr></thead><tbody>';
+  const names=(lab,s)=>'<tr><td>'+lab+'</td>'+s.map((n,i)=>cell(n,i,'nn '+cls(n.sp.a))+nm(n.sp)+'</td>').join('')+'</tr>';
+  const fing=(lab,s)=>'<tr><td>'+lab+'</td>'+s.map((n,i)=>cell(n,i,'fg'+(n.f===1?' t':''))+n.f+'</td>').join('')+'</tr>';
+  h+=same?names('音名 Note',g.rh):names('右手的音 RH note',g.rh);
+  h+=fing('右手 RH',g.rh)+fing('左手 LH',g.lh);
+  if(!same) h+=names('左手的音 LH note',g.lh);
+  $('tg-tbl').innerHTML=h+'</tbody>';
+  const both=idx.filter(i=>g.rh[i].f===1&&g.lh[i].f===1).length;
+  $('tg-note').textContent=(both?'灰底的列是两手拇指同时落下的地方。':'这条练习里两手拇指从不同时落下。')+'往回弹时把表从右往左读，手指不变。 '
+    +(both?'Shaded columns are where both thumbs land together. ':'The two thumbs never land together in this pattern. ')+'Coming back, read the table from right to left with the same fingers.';
+}
+document.querySelectorAll('.kb').forEach(k=>k.addEventListener('click',e=>{
+  const m=e.target.dataset&&e.target.dataset.midi; if(m){tone(+m); clearOn(); e.target.classList.add('on');}
+}));
+
+// ---------- text: title, how to play, notes
+function describe(cur){
+  const t=cur.t, K=S.kind, key=nm(t), P=cur.P;
+  const kz=keyZh(t,S.minor), ke=keyEn(t,S.minor);
+  const hz=S.minor?' 和声小调':' 大调', he=S.minor?' harmonic minor':' major';
+  const first=h=>nm(cur[h][0].sp);
+  const SIM=['两手同向，实际弹奏时相隔一个八度；图里把两只手画在同一个音区。','Similar motion, an octave apart when played; both hands are drawn in the same register here.'];
+  let d;
+  if(K==='scale'){
+    const f=S.minor?FORMS[S.form]:null;
+    d={zh:S.minor?`${key} ${f[0]}小调音阶`:`${kz}音阶`,en:S.minor?`${key} ${f[1].toLowerCase()} minor scale`:`${ke} scale`,span:['四个八度','four octaves'],how:SIM};
+    if(S.minor&&S.form==='melodic'){d.en+=S.dir==='asc'?', ascending form':', descending form'; d.zh+=S.dir==='asc'?'（上行）':'（下行）';}
+  }else if(K==='contrary') d={zh:`${key}${hz}反向音阶`,en:`${key}${he}, contrary motion`,span:['每只手两个八度','two octaves in each hand'],
+    how:[`两手从同一个 ${key} 出发：右手向上、左手向下各两个八度，再原路回来。`,`Both hands start on the same ${key}: right hand up and left hand down two octaves, then back.`]};
+  else if(K==='third') d={zh:`${key}${hz}音阶 · 三度相距`,en:`${key}${he} scale, a third apart`,span:['四个八度','four octaves'],
+    how:[`左手从主音 ${first('lh')} 开始，右手从高三度的 ${first('rh')} 开始，两手同向。每只手的指法和普通音阶一样。`,`Left hand starts on the tonic ${first('lh')}, right hand a third higher on ${first('rh')}, in similar motion. Each hand keeps its normal scale fingering.`]};
+  else if(K==='sixth') d={zh:`${key}${hz}音阶 · 六度相距`,en:`${key}${he} scale, a sixth apart`,span:['四个八度','four octaves'],
+    how:[`右手从主音 ${first('rh')} 开始，左手从低六度的 ${first('lh')} 开始，两手同向。每只手的指法和普通音阶一样。`,`Right hand starts on the tonic ${first('rh')}, left hand a sixth lower on ${first('lh')}, in similar motion. Each hand keeps its normal scale fingering.`]};
+  else if(K==='arp') d={zh:`${kz}琶音 · ${INVS[S.inv][0]}`,en:`${ke} arpeggio, ${INVS[S.inv][1].toLowerCase()}`,span:['四个八度','four octaves'],
+    how:S.inv?[`从和弦的${S.inv===1?'三音':'五音'} ${first('rh')} 开始。`,`Starts on the ${S.inv===1?'third':'fifth'} of the chord, ${first('rh')}.`]:SIM};
+  else if(K==='dom7') d={zh:`${kz}的属七和弦琶音`,en:`Dominant seventh in the key of ${ke}`,span:['四个八度','four octaves'],
+    how:[`从第 5 级音 ${first('rh')} 开始上下四个八度，最后解决到主音 ${key}。`,`Starts on the 5th degree, ${first('rh')}, up and down four octaves, then resolves onto the tonic ${key}.`]};
+  else if(K==='dim7') d={zh:`从 ${first('rh')} 开始的减七和弦琶音`,en:`Diminished seventh starting on ${first('rh')}`,span:['四个八度','four octaves'],
+    how:['每两个音之间都是小三度（3 个半音）。','Every note is a minor third (3 semitones) from the next.']};
+  else if(K==='whole') d={zh:`从 ${first('rh')} 开始的全音阶`,en:`Whole-tone scale starting on ${first('rh')}`,span:['四个八度','four octaves'],
+    how:['每一步都是全音，一个八度只有 6 个音。','Every step is a whole tone: six notes per octave.']};
+  else{
+    const c=S.chrom, L=first('lh'), R=first('rh');
+    d={zh:`半音阶 · ${CHROMS[c][0]}`,en:`Chromatic scale, ${CHROMS[c][1].toLowerCase()}`,span:c==='similar'||c==='sixth'?['四个八度','four octaves']:['每只手两个八度','two octaves in each hand']};
+    d.zh+=c==='similar'||c==='contrary'?`，从 ${R} 开始`:`，左手 ${L}、右手 ${R}`;
+    d.en+=c==='similar'||c==='contrary'?`, starting on ${R}`:`, LH on ${L}, RH on ${R}`;
+    d.how=c==='similar'?SIM:c==='contrary'?[`两手从同一个 ${R} 出发，右手向上、左手向下。`,`Both hands start on the same ${R}; right hand goes up, left hand goes down.`]:
+      c==='sixth'?[`左手从 ${L}、右手从高大六度的 ${R} 开始，两手同向。`,`Left hand starts on ${L}, right hand a major sixth higher on ${R}, in similar motion.`]:
+      [`左手从 ${L} 向下，右手从 ${R} 向上。`,`Left hand goes down from ${L}, right hand goes up from ${R}.`];
+  }
+  return d;
+}
+function drawSummary(cur){
+  const d=describe(cur), P=cur.P, K=S.kind;
+  $('kb-title').textContent=`${d.zh} · ${d.span[0]}`;
+  $('kb-sub').textContent=`${d.en}, ${d.span[1]}`;
+  $('ftitle').innerHTML=`${d.zh}<small>${d.en}</small>`;
+  const contra=cur.L.lh[1]<cur.L.lh[0];
+  $('rh-sub').textContent=contra?'从 ▲ 向右 · from ▲ upward':'从 ▲ 开始，由低到高 · from ▲, low to high';
+  $('lh-sub').textContent=contra?'从 ▲ 向左 · from ▲ downward':'从 ▲ 开始，由低到高 · from ▲, low to high';
+  const chip=n=>`<span class="note ${cls(n.a)}">${nm(n)}</span>`;
+  let h=`<div class="line"><span class="label">怎么弹 · How it goes</span><span>${d.how[0]}</span><span class="en">${d.how[1]}</span></div>`;
+  h+=`<div class="line"><span class="label">用到的音 · Notes</span>${P.sp.map(chip).join('')}</div>`;
+  if(P.n<=7&&K!=='whole'){
+    const alt=P.sp.filter(n=>n.a!==0);
+    h+=`<div class="line"><span class="label">升降的音 · Sharps / flats</span>${alt.length?alt.map(chip).join(''):'<span class="en">没有，全部白键 · None, all white keys</span>'}</div>`;
+  }
+  if(S.minor&&P.n===7){
+    const form=K==='scale'?S.form:'harmonic';
+    const up=form==='harmonic'?[6]:form==='melodic'&&S.dir==='asc'?[5,6]:[];
+    if(up.length) h+=`<div class="line"><span class="label">调号以外升高的音 · Raised beyond the signature</span>${up.map(i=>chip(P.sp[i])).join('')}<span class="en">${form==='harmonic'?'第 7 级升高半音 · 7th degree raised a semitone':'第 6、7 级升高半音 · 6th and 7th raised a semitone'}</span></div>`;
+    else if(form==='melodic') h+=`<div class="line"><span class="label">下行 · Descending</span><span>第 6、7 级还原，和自然小调一样。</span><span class="en">6th and 7th are lowered again, same as natural minor.</span></div>`;
+  }
+  $('summary').innerHTML=h;
+}
+function drawTable(cur){
+  const P=cur.P, n=P.n, K=S.kind, idx=[...Array(n+1).keys()];
+  const form=K==='scale'?S.form:'harmonic';
+  const raised=(S.minor&&n===7)?(form==='harmonic'?[6]:form==='melodic'&&S.dir==='asc'?[5,6]:[]):[];
+  const fin=(hand,i)=>i===0?(P[hand+'Start']||P[hand][0]):i===n?(P[hand+'End']||P[hand][0]):P[hand][i];
+  let h='<thead><tr><th>第几个音 Step</th>'+idx.map(i=>`<th>${i+1}</th>`).join('')+'</tr></thead><tbody>';
+  h+='<tr><td>音名 Note</td>'+idx.map(i=>{const s=P.sp[i%n]; return `<td class="nn ${cls(s.a)}">${nm(s)}${raised.includes(i)?'<sup>↑</sup>':''}</td>`;}).join('')+'</tr>';
+  const row=(lab,hand)=>'<tr><td>'+lab+'</td>'+idx.map(i=>{const f=fin(hand,i); return `<td class="fg${f===1?' t':''}">${f}</td>`;}).join('')+'</tr>';
+  h+=row('右手 RH','rh')+row('左手 LH','lh')+'</tbody>';
+  $('tbl').innerHTML=h;
+  const foot=[], a=nm(P.sp[0]);
+  foot.push(`从 ${a} 往上排一个八度；指法跟着音走，换了八度或起点也不变。 One octave upward from ${a}; each note keeps its finger in every octave and from any starting point.`);
+  if(raised.length) foot.push('↑ 表示比调号多升高半音的音。 ↑ marks a note raised beyond the key signature.');
+  if(P.rhEnd) foot.push(`右手：只有最高的 ${a} 用 ${P.rhEnd} 指，中间经过 ${a} 时用 ${P.rh[0]} 指。 RH: only the very top ${a} takes ${P.rhEnd}; passing through ${a} uses ${P.rh[0]}.`);
+  if(P.lhStart) foot.push(`左手：只有最低的 ${a} 用 ${P.lhStart} 指，中间经过 ${a} 时用 ${P.lh[0]} 指。 LH: only the very bottom ${a} takes ${P.lhStart}; passing through ${a} uses ${P.lh[0]}.`);
+  if(P.rhStart) foot.push(`右手：起音用 ${P.rhStart} 指，之后每次回到 ${a} 用 ${P.rh[0]} 指。 RH: start on ${P.rhStart}; afterwards ${a} takes ${P.rh[0]}.`);
+  if(!P.rhEnd&&!P.rhStart&&n===7&&P.rh[0]!==2) foot.push('右手从黑键开始：有些教材第一个音印成 2 指，之后和这里一样。 RH starts on a black key: some editions print finger 2 for the first note, then continue as shown.');
+  if(cur.L.lh[1]<cur.L.lh[0]) foot.push('反向时，左手往下弹：把"左手"这一行从右往左读。 In contrary motion the left hand goes down: read the LH row from right to left.');
+  if(K==='scale'&&S.minor&&S.form==='melodic') foot.push('旋律小调上行和下行的音不同，用上面的"上行／下行"切换。 Melodic minor differs going up and down; use the Ascending / Descending switch above.');
+  if((K==='arp'&&S.inv)||K==='dom7'||K==='dim7'||K==='whole') foot.push('这里用的是通行的指法；ABRSM 不规定指法，如果教材或老师给的不同，以他们的为准。 This is a commonly used fingering; ABRSM does not prescribe one, so follow your edition or teacher where they differ.');
+  $('foot').innerHTML=foot.map(x=>`<span>${x}</span>`).join('');
+}
+function drawTips(cur){
+  const P=cur.P, K=S.kind, tips=[];
+  const on=(arr,k)=>P.sp.filter((_,i)=>arr[i]===k).map(nm);
+  const j=a=>a.join('、'), je=a=>a.join(', ');
+  const rt=on(P.rh,1), lt=on(P.lh,1);
+  if(K==='chrom'){
+    tips.push(['黑键全部用 3 指','Every black key takes finger 3']);
+    tips.push(['右手：白键用拇指，只有 C 和 F 用 2 指','RH: thumb on white keys, except finger 2 on C and F']);
+    tips.push(['左手：白键用拇指，只有 E 和 B 用 2 指','LH: thumb on white keys, except finger 2 on E and B']);
+    if(S.chrom==='contrary'&&S.start===2) tips.push(['从 D 出发时两手完全镜像，每一步用同一根手指','From D the hands mirror exactly: the same finger at every step']);
+    if(S.chrom==='contrary'&&S.start===8) tips.push(['从 A♭ (G♯) 出发时两手也完全镜像','From A♭ (G♯) the hands mirror exactly as well']);
+  }else if(P.n===7){
+    const r4=on(P.rh,4), l4=on(P.lh,4);
+    if(r4.length) tips.push([`右手 4 指只弹 ${j(r4)}`,`RH finger 4 plays only ${je(r4)}`]);
+    if(l4.length) tips.push([`左手 4 指只弹 ${j(l4)}`,`LH finger 4 plays only ${je(l4)}`]);
+    tips.push([`右手拇指落在 ${j(rt)}`,`RH thumb lands on ${je(rt)}`]);
+    tips.push([`左手拇指落在 ${j(lt)}`,`LH thumb lands on ${je(lt)}`]);
+    if(K==='contrary'){
+      const mirror=cur.rh.every((n,i)=>n.f===cur.lh[i].f);
+      tips.push(mirror?['两手完全镜像：每一步都用同一根手指，拇指同时换','The hands mirror exactly: the same finger at every step, thumbs passing together']
+        :['两手不镜像：拇指不在同一步换，先分手练熟各自的换指点',"The hands do not mirror: the thumbs pass at different moments, so learn each hand's turning points separately first"]);
+    }else if(K==='scale'){
+      const same=rt.filter(x=>lt.includes(x));
+      if(same.length) tips.push([`两手拇指同时落在 ${j(same)}，双手合奏时可以当作对齐点`,`Both thumbs meet on ${je(same)}: a checkpoint when playing hands together`]);
+    }else{
+      const both=cur.rh.filter((n,i)=>n.f===1&&cur.lh[i].f===1).length;
+      tips.push(both?['有些地方两手拇指同时落下，可以当作对齐点','At some steps both thumbs land together: use them as checkpoints']
+        :['两手拇指从不同时落下，换指总是错开的','The thumbs never land together; the hand shifts are always staggered']);
+    }
+  }else{
+    const pr=h=>cur[h].slice(0,P.n+1).map(n=>n.f).join(' - ');
+    tips.push([`右手：${pr('rh')}，然后重复`,`RH: ${pr('rh')}, then repeat`]);
+    tips.push([`左手：${pr('lh')}，然后重复`,`LH: ${pr('lh')}, then repeat`]);
+    tips.push([`右手拇指落在 ${j(rt)}，左手拇指落在 ${j(lt)}`,`RH thumb on ${je(rt)}; LH thumb on ${je(lt)}`]);
+    if(K==='dom7') tips.push([`属七和弦 = 第 5 级上的大三和弦再加一个小七度；最后一个音解决到主音 ${nm(cur.t)}`,`A dominant seventh is the major triad on the 5th degree plus a minor seventh; the last note resolves to the tonic ${nm(cur.t)}`]);
+    if(K==='dim7') tips.push(['减七和弦一共只有 3 组音，从组内任何一个音开始，按的都是同样的键','Only three different diminished sevenths exist; starting on any note of a set uses the same keys']);
+    if(K==='whole') tips.push(['全音阶只有两条，起始音决定用哪一条','Only two whole-tone scales exist; the starting note decides which one']);
+  }
+  if(K!=='chrom'){
+    const blacks=P.sp.filter((n,i)=>isBlack(P.pc+P.iv[i])).map(nm);
+    const odd=P.sp.filter((n,i)=>n.a!==0&&!isBlack(P.pc+P.iv[i])).map(nm);
+    tips.push(blacks.length?[`黑键：${j(blacks)}`,`Black keys: ${je(blacks)}`]:['没有黑键','No black keys']);
+    if(odd.length) tips.push([`注意：${j(odd)} 弹的是白键`,`Careful: ${je(odd)} ${odd.length>1?'are':'is'} played on a white key`]);
+  }
+  $('tips').innerHTML=tips.map(t=>`<div class="tip"><span class="zh">${t[0]}</span><span class="en">${t[1]}</span></div>`).join('');
+}
+
+// ---------- ABRSM syllabus (Piano Practical Grades 2025 & 2026)
+const parseName=s=>({l:LET.indexOf(s[0]),a:s[1]==='#'?1:s[1]==='b'?-1:0});
+function keyState(name,minor){
+  const t=parseName(name), arr=minor?MINORS:MAJORS, alt=minor?MIN_ALT:MAJ_ALT;
+  let pos=arr.findIndex(x=>x.l===t.l&&x.a===t.a), enh=false;
+  if(pos<0){pos=+Object.keys(alt).find(k=>alt[k].l===t.l&&alt[k].a===t.a); enh=true;}
+  return {pos,minor,enh};
+}
+const keys=(list,minor,ext)=>list.split(' ').map(n=>({label:nm(parseName(n))+(minor?'m':''),st:Object.assign(keyState(n,minor),{inv:0,form:'harmonic'},ext)}));
+const from=(n,ext,label)=>({label:label||nm(parseName(n)),st:Object.assign({start:pcOf(parseName(n))},ext)});
+const SC={kind:'scale'}, CO={kind:'contrary'}, AR={kind:'arp'};
+const R={
+  hs:o=>[`${o} 个八度 · 分手`,`${o} oct., hands separately`],
+  ht:o=>[`${o} 个八度 · 双手`,`${o} oct., hands together`],
+  co:o=>[`${o} 个八度 · 两手从同一个主音出发`,`${o} oct., hands starting on the tonic (unison)`],
+  ls:o=>[`${o} 个八度 · 双手 · 连奏或断奏（考官指定）`,`${o} oct., hands together, legato or staccato at examiner's choice`]
+};
+const MIN123=['小调可任选自然、和声或旋律','Minors: natural, harmonic or melodic, candidate\'s choice'];
+const MIN23=['小调可任选和声或旋律','Minors: harmonic or melodic, candidate\'s choice'];
+const MINBOTH=['小调的和声与旋律两种都要准备','Minors: both harmonic and melodic'];
+const row=(zh,en,chips,req,note)=>({zh,en,chips,req,note});
+const GR={
+1:{speed:['♩= 60','♩= 58'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('C',false,SC),R.ht(1)),
+  row('音阶（同向）','Scales (similar motion)',keys('G F',false,SC).concat(keys('A D',true,SC)),R.hs(2),MIN123),
+  row('反向音阶','Contrary-motion scale',keys('C',false,CO),R.co(1)),
+  row('琶音','Arpeggios',keys('G',false,AR).concat(keys('A',true,AR)),R.hs(1))]},
+2:{speed:['♩= 66','♩= 63'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('G F',false,SC).concat(keys('A D',true,SC)),R.ht(2),MIN123),
+  row('音阶（同向）','Scales (similar motion)',keys('D A',false,SC).concat(keys('E G',true,SC)),R.hs(2),MIN123),
+  row('反向音阶','Contrary-motion scale',keys('C',false,CO),R.co(2)),
+  row('半音阶','Chromatic scale',[from('D',{kind:'chrom',chrom:'similar'})],R.hs(1)),
+  row('琶音','Arpeggios',keys('D A',false,AR).concat(keys('E G',true,AR)),R.hs(2))]},
+3:{speed:['♩= 80','♩= 72'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('D A',false,SC).concat(keys('E G',true,SC)),R.ht(2),MIN23),
+  row('音阶（同向）','Scales (similar motion)',keys('Bb Eb',false,SC).concat(keys('B C',true,SC)),R.hs(2),MIN23),
+  row('反向音阶','Contrary-motion scale',keys('E',false,CO),R.co(2)),
+  row('半音阶反向','Chromatic contrary-motion scale',[from('D',{kind:'chrom',chrom:'contrary'})],['1 个八度 · 两手从同一个音出发','1 oct., hands starting on the stated note (unison)']),
+  row('琶音','Arpeggios',keys('D A',false,AR).concat(keys('E G',true,AR)),R.ht(2)),
+  row('琶音','Arpeggios',keys('Bb Eb',false,AR).concat(keys('B C',true,AR)),R.hs(2))]},
+4:{speed:['♩= 100','♩= 80'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('Bb Eb',false,SC).concat(keys('B C',true,SC)),R.ht(2),MIN23),
+  row('音阶（同向）','Scales (similar motion)',keys('B F# Ab',false,SC).concat(keys('F# F',true,SC)),R.hs(2),MIN23),
+  row('反向音阶','Contrary-motion scales',keys('Eb',false,CO).concat(keys('C',true,CO)),R.co(2),['小调用和声小调','Minor: harmonic']),
+  row('半音阶（同向）','Chromatic scale (similar motion)',[from('F#',{kind:'chrom',chrom:'similar'})],R.ht(2)),
+  row('琶音','Arpeggios',keys('Bb Eb',false,AR).concat(keys('B C',true,AR)),R.ht(2)),
+  row('琶音','Arpeggios',keys('B F# Ab',false,AR).concat(keys('F# F',true,AR)),R.hs(2))]},
+5:{speed:['二分音符 minim = 60','二分音符 minim = 44'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('A E B F# Db',false,SC).concat(keys('F# C# G# Eb Bb',true,SC)),['2 个八度 · 连奏 · 双手','2 oct., legato, hands together'],MIN23),
+  row('断奏音阶','Staccato scales',keys('Ab',false,SC).concat(keys('F',true,SC)),['2 个八度 · 断奏 · 分手','2 oct., staccato, hands separately'],MIN23),
+  row('反向音阶','Contrary-motion scales',keys('Db',false,CO).concat(keys('C#',true,CO)),R.co(2),['小调用和声小调','Minor: harmonic']),
+  row('半音阶反向','Chromatic contrary-motion scale',[from('F#',{kind:'chrom',chrom:'contraM3'},'F♯ (LH) + A♯ (RH)')],['2 个八度 · 两手相距大三度出发','2 oct., hands starting a major third apart']),
+  row('琶音','Arpeggios',keys('A E B F# Ab Db',false,AR).concat(keys('F# C# G# Eb F Bb',true,AR)),R.ht(2)),
+  row('减七和弦','Diminished seventh',[from('B',{kind:'dim7'})],R.hs(2))]},
+6:{speed:['二分音符 minim = 72','二分音符 minim = 50'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('D F Ab B',false,SC).concat(keys('D F G# B',true,SC)),R.ls(4),MINBOTH),
+  row('反向音阶','Contrary-motion scales',keys('D F Ab B',false,CO).concat(keys('D F G# B',true,CO)),['2 个八度 · 连奏 · 两手从同一个主音出发','2 oct., legato, hands starting on the tonic (unison)'],['小调用和声小调','Minors: harmonic']),
+  row('半音阶（同向）','Chromatic scales (similar motion)',[from('G#',{kind:'chrom',chrom:'similar'}),from('B',{kind:'chrom',chrom:'similar'})],R.ls(4)),
+  row('琶音','Arpeggios',keys('D F Ab B',false,AR).concat(keys('D F G# B',true,AR)),['4 个八度 · 连奏 · 双手 · 原位','4 oct., legato, hands together, root position']),
+  row('属七和弦','Dominant sevenths (resolving on tonic)',keys('D F Ab B',false,{kind:'dom7'}),['4 个八度 · 连奏 · 双手；标的是调名','4 oct., legato, hands together; chips name the key']),
+  row('减七和弦','Diminished sevenths',[from('G#',{kind:'dim7'}),from('B',{kind:'dim7'})],['4 个八度 · 连奏 · 双手','4 oct., legato, hands together'])]},
+7:{speed:['二分音符 minim = 80','二分音符 minim = 56'],extra:['三度相距 二分音符 minim = 60；连奏双三度 二分音符 minim = 46；断奏双三度 二分音符 minim = 54','A third apart 二分音符 minim = 60; legato thirds 二分音符 minim = 46; staccato thirds 二分音符 minim = 54'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('Db E G Bb',false,SC).concat(keys('C# E G Bb',true,SC)),R.ls(4),MINBOTH),
+  row('三度相距的音阶','Scales a third apart',keys('Db E G Bb',false,{kind:'third'}).concat(keys('C# E G Bb',true,{kind:'third'})),R.ls(4),['小调用和声小调','Minors: harmonic']),
+  row('反向音阶','Contrary-motion scales',keys('Db E G Bb',false,CO).concat(keys('C# E G Bb',true,CO)),['2 个八度 · 连奏或断奏 · 两手从同一个主音出发','2 oct., legato or staccato, hands starting on the tonic (unison)'],['小调用和声小调','Minors: harmonic']),
+  row('连奏双三度音阶','Legato scale in thirds',[{label:'G',plain:true}],['2 个八度 · 连奏 · 分手','2 oct., legato, hands separately'],['一只手同时弹两个音。双音指法各版本差别较大，本页不提供，请按教材。','One hand plays both notes. Fingerings vary between editions, so none is shown here; follow your book.']),
+  row('断奏双三度音阶','Staccato scale in thirds',[{label:'G',plain:true}],['2 个八度 · 断奏 · 分手','2 oct., staccato, hands separately']),
+  row('半音阶反向','Chromatic contrary-motion scale',[from('C#',{kind:'chrom',chrom:'contram3'},'C♯ (LH) + E (RH)')],['2 个八度 · 连奏或断奏 · 两手相距小三度出发','2 oct., legato or staccato, hands starting a minor third apart']),
+  row('琶音','Arpeggios',keys('Db E G Bb',false,{kind:'arp',inv:1}).concat(keys('C# E G Bb',true,{kind:'arp',inv:1})),['4 个八度 · 连奏 · 双手 · 只考第一转位','4 oct., legato, hands together, first inversion only']),
+  row('属七和弦','Dominant sevenths (resolving on tonic)',keys('Db E G Bb',false,{kind:'dom7'}),['4 个八度 · 连奏 · 双手；标的是调名','4 oct., legato, hands together; chips name the key']),
+  row('减七和弦','Diminished sevenths',[from('Bb',{kind:'dim7'}),from('E',{kind:'dim7'})],['4 个八度 · 连奏 · 双手','4 oct., legato, hands together'])]},
+8:{speed:['二分音符 minim = 88','二分音符 minim = 66'],extra:['六度相距 二分音符 minim = 60；连奏双三度 二分音符 minim = 52；断奏双六度 二分音符 minim = 54','A sixth apart 二分音符 minim = 60; legato thirds 二分音符 minim = 52; staccato sixths 二分音符 minim = 54'],rows:[
+  row('音阶（同向）','Scales (similar motion)',keys('C Eb F# A',false,SC).concat(keys('C Eb F# A',true,SC)),R.ls(4),MINBOTH),
+  row('六度相距的音阶','Scales a sixth apart',keys('C Eb F# A',false,{kind:'sixth'}).concat(keys('C Eb F# A',true,{kind:'sixth'})),R.ls(4),['小调用和声小调','Minors: harmonic']),
+  row('反向音阶','Contrary-motion scales',keys('C Eb F# A',false,CO).concat(keys('C Eb F# A',true,CO)),['2 个八度 · 连奏或断奏 · 两手从同一个主音出发','2 oct., legato or staccato, hands starting on the tonic (unison)'],['小调用和声小调','Minors: harmonic']),
+  row('连奏双三度音阶','Legato scale in thirds',[{label:'E♭',plain:true}],['2 个八度 · 连奏 · 分手','2 oct., legato, hands separately'],['一只手同时弹两个音。双音指法各版本差别较大，本页不提供，请按教材。','One hand plays both notes. Fingerings vary between editions, so none is shown here; follow your book.']),
+  row('断奏双六度音阶','Staccato scale in sixths',[{label:'C',plain:true}],['2 个八度 · 断奏 · 分手','2 oct., staccato, hands separately']),
+  row('半音阶 · 相距大六度','Chromatic scale a major sixth apart',[from('Eb',{kind:'chrom',chrom:'sixth'},'E♭ (LH) + C (RH)')],R.ls(4)),
+  row('全音阶（同向）','Whole-tone scales (similar motion)',[from('Eb',{kind:'whole'}),from('C',{kind:'whole'})],R.ls(4)),
+  row('琶音','Arpeggios',keys('C Eb F# A',false,{kind:'arp',inv:2}).concat(keys('C Eb F# A',true,{kind:'arp',inv:2})),['4 个八度 · 连奏 · 双手 · 只考第二转位','4 oct., legato, hands together, second inversion only']),
+  row('属七和弦','Dominant sevenths (resolving on tonic)',keys('C Eb F# A',false,{kind:'dom7'}),['4 个八度 · 连奏 · 双手；标的是调名','4 oct., legato, hands together; chips name the key']),
+  row('减七和弦','Diminished sevenths',[from('Eb',{kind:'dim7'}),from('C',{kind:'dim7'})],['4 个八度 · 连奏 · 双手','4 oct., legato, hands together'])]}
+};
+function drawSyllabus(){
+  $('grade').innerHTML=[1,2,3,4,5,6,7,8].map(g=>`<button id="grade-${g}" data-grade="${g}" aria-pressed="${S.grade===g}">${g} 级<small>Grade ${g}</small></button>`).join('');
+  const G=GR[S.grade];
+  const nb=S.grade<=4?2:4;
+  $('speed').innerHTML=`参考速度（四个音一组，这一级每拍弹 ${nb} 个音）：音阶 ${G.speed[0]}，琶音 ${G.speed[1]}${G.extra?'；'+G.extra[0]:''}<br>Guide speeds (notes grouped in fours; ${nb} notes per beat at this grade): scales ${G.speed[0]}, arpeggios ${G.speed[1]}${G.extra?'; '+G.extra[1]:''}`;
+  $('glist').innerHTML=G.rows.map((r,ri)=>`<div class="srow">
+    <div class="scat"><b>${r.zh}</b><span class="en">${r.en}</span></div>
+    <div class="schips">${r.chips.map((c,ci)=>c.plain?`<span class="kchip plain">${c.label}</span>`:`<button class="kchip" data-r="${ri}" data-c="${ci}">${c.label}</button>`).join('')}
+      ${r.note?`<span class="snote">${r.note[0]}<br>${r.note[1]}</span>`:''}</div>
+    <div class="sreq"><span>${r.req[0]}</span><span class="en">${r.req[1]}</span></div></div>`).join('');
+}
+$('grade').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; S.grade=+b.dataset.grade; drawSyllabus();});
+$('glist').addEventListener('click',e=>{
+  const b=e.target.closest('button.kchip'); if(!b)return;
+  load(GR[S.grade].rows[+b.dataset.r].chips[+b.dataset.c].st); go('player');
+});
+function load(st){
+  Object.assign(S,{dir:'asc'},st);
+  if(st.pos!==undefined) S.start=pcOf(tonicAt(S.pos,S.minor,false));
+  stop(); render();
+}
+function go(id){$(id).scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
+$('nav').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) go(b.dataset.go);});
+
+// ---------- tempo with ABRSM guide speeds. Syllabus speeds are per beat with notes grouped in fours:
+// a crotchet beat (Grades 1-4) carries 2 notes, a minim beat (Grades 5-8) carries 4. The slider is in notes per minute.
+const SP_SC=[60,66,80,100,60,72,80,88], SP_AR=[58,63,72,80,44,50,56,66];
+const perBeat=g=>g<=4?2:4;
+const beatTxt=(g,b)=>g<=4?`♩ = ${b}`:`二分音符 minim = ${b}`;
+const CATN={sc:['音阶','scale'],ar:['琶音','arpeggio'],third:['三度相距','third-apart'],sixth:['六度相距','sixth-apart']};
+function speedCat(){
+  const K=S.kind;
+  if(K==='third')return 'third';
+  if(K==='sixth'||(K==='chrom'&&S.chrom==='sixth'))return 'sixth';
+  return ['arp','dom7','dim7'].includes(K)?'ar':'sc';
+}
+function gradeSpeeds(cat){
+  if(cat==='third')return [{g:7,bpm:60,npm:240}];
+  if(cat==='sixth')return [{g:8,bpm:60,npm:240}];
+  return (cat==='ar'?SP_AR:SP_SC).map((b,i)=>({g:i+1,bpm:b,npm:b*perBeat(i+1)}));
+}
+function drawTempo(){
+  const el=$('tempo'), v=+el.value, min=+el.min, max=+el.max, cat=speedCat(), gs=gradeSpeeds(cat), N=CATN[cat];
+  $('ticks').innerHTML=gs.map(x=>`<span class="tick${x.g%2?'':' ev'}${v>=x.npm?' met':''}" style="left:calc(8px + (100% - 16px)*${((x.npm-min)/(max-min)).toFixed(4)})">${x.g}</span>`).join('');
+  $('jump-label').textContent=`跳到 ABRSM ${N[0]}要求速度 · Jump to the ABRSM ${N[1]} speed`;
+  $('jump').innerHTML=gs.map(x=>`<button data-v="${x.npm}" aria-pressed="${v===x.npm}" title="${beatTxt(x.g,x.bpm)}">${x.g} 级<small>${x.g<=4?'♩':'二分'}=${x.bpm}</small></button>`).join('');
+  const met=gs.filter(x=>v>=x.npm).pop(), next=gs.find(x=>v<x.npm);
+  let s;
+  if(met&&met.npm===v) s=[`正好是 ${met.g} 级${N[0]}的要求速度`,`exactly the Grade ${met.g} ${N[1]} speed`];
+  else if(met&&next) s=[`在 ${met.g} 级和 ${next.g} 级${N[0]}要求之间`,`between the Grade ${met.g} and Grade ${next.g} ${N[1]} speeds`];
+  else if(met) s=[`超过 ${met.g} 级${N[0]}的要求速度`,`above the Grade ${met.g} ${N[1]} speed`];
+  else s=[`低于 ${gs[0].g} 级${N[0]}要求，适合慢练`,`below the Grade ${gs[0].g} ${N[1]} speed: slow practice`];
+  $('tread').innerHTML=`<b>♩ = ${v/2}</b> （二分音符 minim ≈ ${Math.round(v/4)}）<br>${s[0]} · ${s[1]}`;
+}
+$('tempo').addEventListener('input',drawTempo);
+$('jump').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; $('tempo').value=b.dataset.v; drawTempo();});
+
+// ---------- focus view: on a phone or tablet, playing switches to just the controls and the hands-together keyboard
+let focusOn=false, savedY=0;
+function setFocus(on){
+  if(on===focusOn)return;
+  focusOn=on; if(on) savedY=window.scrollY;
+  document.body.classList.toggle('focus',on);
+  $('focus').textContent=on?'✕ 退出 Exit':'专注视图 Focus view';
+  window.scrollTo(0,on?0:savedY);
+}
+const smallScreen=()=>window.matchMedia('(pointer:coarse)').matches||window.innerHeight<720||window.innerWidth<900;
+$('focus').addEventListener('click',()=>setFocus(!focusOn));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&focusOn) setFocus(false);});
+
+// ---------- memory chart
+const MTABS=[['maj','大调音阶','Major scales'],['min','和声小调音阶','Harmonic minors'],['amaj','大调琶音','Major arpeggios'],['amin','小调琶音','Minor arpeggios'],
+  ['dom7','属七','Dominant 7ths'],['dim7','减七','Diminished 7ths'],['whole','全音阶','Whole-tone'],['chrom','半音阶','Chromatic']];
+const MHINT={
+  maj:['拇指从不弹黑键。记住每只手的 4 指落在哪个音，其余手指就自动排好了。','Thumbs never play black keys. Remember where each hand\'s 4th finger goes and the other fingers fall into place.'],
+  min:['这里是和声小调，↑ 是升高的第 7 级。旋律小调上行时，F♯ 和 C♯ 小调右手改成 2 3 1 2 3 4 1；自然小调时，G♯ 小调左手改成 3 2 1 3 2 1 4。其余和表里一样。','Harmonic minors; ↑ marks the raised 7th. In melodic minor ascending, F♯ and C♯ minor change the right hand to 2 3 1 2 3 4 1; in natural minor, G♯ minor changes the left hand to 3 2 1 3 2 1 4. Everything else stays as shown.'],
+  amaj:['原位琶音。白键起音：右手 1 2 3 (5)，左手 5 4 2 1 或 5 3 2 1。黑键起音：让拇指落在白键上。','Root position. From a white key: right hand 1 2 3 (5), left hand 5 4 2 1 or 5 3 2 1. From a black key: put the thumb on a white key.'],
+  amin:['原位琶音。和大调琶音一样的思路：先找拇指落在哪个白键。','Root position. Same idea as the major arpeggios: find the white key the thumb lands on first.'],
+  dom7:['第一列是调名。属七和弦从这个调的第 5 级音开始，弹完解决到主音。','The first column is the key. Its dominant seventh starts on the 5th degree and resolves onto the tonic at the end.'],
+  dim7:['减七和弦只有 3 组不同的音：同一组里从哪个音开始，按的都是同样的键。','Only three different diminished sevenths exist: within a set, every starting note uses the same keys.'],
+  whole:['全音阶只有两条，同色的行是同一条，指法跟着音走。','Only two whole-tone scales exist; rows of the same colour are the same scale, and each note keeps its finger.'],
+  chrom:['黑键全部 3 指，白键用拇指；连续两个白键时加一个 2 指：右手在 C 和 F，左手在 E 和 B。从哪个音开始都一样。','Every black key takes 3 and white keys take the thumb; where two white keys are adjacent add finger 2: on C and F in the right hand, on E and B in the left. The same from any starting note.']};
+const KORDER=[0,1,2,3,4,5,6,11,10,9,8,7];
+let MT='maj', MROWS=[];
+const fingers=(P,h)=>[...Array(P.n+1).keys()].map(i=>i===0?(P[h+'Start']||P[h][0]):i===P.n?(P[h+'End']||P[h][0]):P[h][i]);
+function memRows(){
+  const key=(minor,fn,ext)=>KORDER.map(pos=>{const t=tonicAt(pos,minor,false);
+    return {label:keyZh(t,minor),t,minor,P:fn(t),st:Object.assign({pos,minor,enh:false,inv:0,form:'harmonic'},ext)};});
+  const st=(fn,kind)=>N12.map((t,pc)=>({label:nm(t),P:fn(pc),st:{kind,start:pc}}));
+  return MT==='maj'?key(false,t=>scaleP(t,false),{kind:'scale'}):MT==='min'?key(true,t=>scaleP(t,true,'harmonic','asc'),{kind:'scale'}):
+    MT==='amaj'?key(false,t=>triadP(t,false,0),{kind:'arp'}):MT==='amin'?key(true,t=>triadP(t,true,0),{kind:'arp'}):
+    MT==='dom7'?key(false,t=>dom7P(t,false),{kind:'dom7'}):MT==='dim7'?st(dimP,'dim7'):st(wholeP,'whole');
+}
+function drawChart(){
+  $('mtab').innerHTML=MTABS.map(([k,z,e])=>`<button data-mt="${k}" aria-pressed="${MT===k}">${z}<small>${e}</small></button>`).join('');
+  $('mhint').innerHTML=`<span>${MHINT[MT][0]}</span><span>${MHINT[MT][1]}</span>`;
+  const th=(z,e)=>`<th>${z}<small>${e}</small></th>`;
+  if(MT==='chrom'){
+    const P=chromP(0), row=(lab,h)=>'<tr><td>'+lab+'</td>'+P[h].map(f=>`<td class="fg${f===1?' t':''}">${f}</td>`).join('')+'</tr>';
+    $('mtbl').innerHTML='<thead><tr><th>音 Note</th>'+P.sp.map(n=>`<th>${nm(n)}</th>`).join('')+'</tr></thead><tbody>'+row('右手 RH','rh')+row('左手 LH','lh')+'</tbody>';
+    MROWS=[]; return;
+  }
+  const rows=MROWS=memRows(), scale=MT==='maj'||MT==='min', start=MT==='dim7'||MT==='whole';
+  const tint=h=>{const cnt={}; rows.forEach(r=>{const p=fingers(r.P,h).join(''); cnt[p]=(cnt[p]||0)+1;});
+    const top=Object.keys(cnt).filter(p=>cnt[p]>1).sort((a,b)=>cnt[b]-cnt[a]).slice(0,3);
+    return p=>{const i=top.indexOf(p); return i<0?'':' g'+(i+1);};};
+  const tr=tint('rh'), tl=tint('lh');
+  const fcell=(r,h,tf)=>{const f=fingers(r.P,h); return `<td class="fs${tf(f.join(''))}">${f.map(x=>`<span class="${x===1?'t':x===4&&scale?'f4':''}">${x}</span>`).join('')}</td>`;};
+  const on=(P,arr,k)=>P.sp.filter((_,i)=>arr[i]===k).map(n=>`<span class="${cls(n.a)}">${nm(n)}</span>`).join(' ')||'—';
+  let h='<thead><tr>'+th(start?'起始音':'调',start?'Start':'Key')+(scale?th('调号','Signature'):'')+th('音','Notes')+th('右手','RH')+th('左手','LH')
+    +(scale?th('右手 4 指','RH 4th on')+th('左手 4 指','LH 4th on')+th('两手拇指同落','Thumbs together on'):th('右手拇指','RH thumb on')+th('左手拇指','LH thumb on'))+'</tr></thead><tbody>';
+  rows.forEach((r,i)=>{
+    const P=r.P;
+    h+=`<tr><td><button class="linkbtn mkey" data-i="${i}">${r.label}</button></td>`;
+    if(scale){const sg=signature(r.t,r.minor); h+=`<td class="sg ${sg.n?(sg.sharps?'s':'f'):''}">${sg.n?sg.n+(sg.sharps?'♯':'♭'):'0'}</td>`;}
+    h+='<td class="mn">'+P.sp.map((n,j)=>`<span class="${cls(n.a)}">${nm(n)}${MT==='min'&&j===6?'↑':''}</span>`).join(' ')+'</td>';
+    h+=fcell(r,'rh',tr)+fcell(r,'lh',tl);
+    if(scale){
+      const both=P.sp.filter((_,j)=>P.rh[j]===1&&P.lh[j]===1).map(n=>`<span class="${cls(n.a)}">${nm(n)}</span>`).join(' ')||'—';
+      h+=`<td class="mn">${on(P,P.rh,4)}</td><td class="mn">${on(P,P.lh,4)}</td><td class="mn">${both}</td>`;
+    }else h+=`<td class="mn">${on(P,P.rh,1)}</td><td class="mn">${on(P,P.lh,1)}</td>`;
+    h+='</tr>';
+  });
+  $('mtbl').innerHTML=h+'</tbody>';
+}
+$('mtab').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; MT=b.dataset.mt; drawChart();});
+$('mtbl').addEventListener('click',e=>{const b=e.target.closest('.mkey'); if(!b)return; load(MROWS[+b.dataset.i].st); go('player');});
+
+// ---------- spot check: examiner-style questions drawn from the chosen grade's syllabus rows
+const HANDS={R:['右手','right hand'],L:['左手','left hand'],T:['双手','hands together']};
+const ARTS={leg:['连奏','legato'],stac:['断奏','staccato']};
+let DB={stats:{},speak:true,grade:5};
+try{const s=JSON.parse(localStorage.getItem('scales-quiz-v1')); if(s&&s.stats) DB=Object.assign(DB,s);}catch(e){}
+const save=()=>{try{localStorage.setItem('scales-quiz-v1',JSON.stringify(DB));}catch(e){}};
+const Q={mode:'random',cur:null,art:null,queue:[],idx:0,res:[],done:false,confirm:false};
+function qItems(g){
+  const out=[];
+  GR[g].rows.forEach((r,ri)=>{
+    const en=r.req[1].toLowerCase(), oct=parseInt(r.req[1],10);
+    const hands=en.includes('hands separately')?['R','L']:['T'];
+    const art=en.includes('legato or staccato')?'either':en.includes('staccato')?'stac':'leg';
+    r.chips.forEach((c,ci)=>{
+      const forms=(c.st&&c.st.minor&&c.st.kind==='scale')?(r.note===MINBOTH?['harmonic','melodic']:['choice']):[''];
+      hands.forEach(h=>forms.forEach(f=>out.push({id:[g,ri,ci,h,f].join('|'),g,ri,ci,r,c,h,f,oct,art})));
+    });
+  });
+  return out;
+}
+function qText(q,art){
+  const c=q.c, st=c.st, H=HANDS[q.h]; let en,zh,hand=true;
+  if(c.plain){
+    const six=q.r.en.includes('sixths');
+    en=`${c.label} major, scale in ${six?'sixths':'thirds'}`; zh=`${c.label} 大调双${six?'六':'三'}度音阶`;
+  }else if(st.pos!==undefined){
+    const k=nm(tonicAt(st.pos,st.minor,st.enh)), K=st.kind;
+    const mj=st.minor?'minor':'major', mz=st.minor?'小调':'大调', hm=st.minor?'harmonic minor':'major', hz=st.minor?'和声小调':'大调';
+    if(K==='scale'){const f=FORMS[q.f]&&q.f!=='natural'?q.f:''; en=`${k} ${f?f+' ':''}${mj}`; zh=`${k} ${f?FORMS[f][0]:''}${mz}音阶`;}
+    else if(K==='contrary'){en=`${k} ${hm}, contrary motion`; zh=`${k} ${hz}反向音阶`; hand=false;}
+    else if(K==='third'){en=`${k} ${hm}, a third apart`; zh=`${k} ${hz}音阶 · 三度相距`; hand=false;}
+    else if(K==='sixth'){en=`${k} ${hm}, a sixth apart`; zh=`${k} ${hz}音阶 · 六度相距`; hand=false;}
+    else if(K==='arp'){en=`Arpeggio of ${k} ${mj}`+(st.inv?`, ${['','first','second'][st.inv]} inversion`:''); zh=`${k} ${mz}琶音`+(st.inv?`（${INVS[st.inv][0]}）`:'');}
+    else{en=`Dominant seventh in the key of ${k}`; zh=`${k} 大调的属七和弦`;}
+  }else{
+    const K=st.kind, n=c.label, m=n.match(/^(\S+) \(LH\) \+ (\S+) \(RH\)$/)||[];
+    if(K==='dim7'){en=`Diminished seventh starting on ${n}`; zh=`从 ${n} 开始的减七和弦`;}
+    else if(K==='whole'){en=`Whole-tone scale starting on ${n}`; zh=`从 ${n} 开始的全音阶`;}
+    else if(st.chrom==='similar'){en=`Chromatic scale starting on ${n}`; zh=`从 ${n} 开始的半音阶`;}
+    else if(st.chrom==='contrary'){en=`Chromatic contrary-motion scale starting on ${n}`; zh=`半音阶反向，从 ${n} 开始`; hand=false;}
+    else if(st.chrom==='sixth'){en=`Chromatic scale a major sixth apart, left hand on ${m[1]}, right hand on ${m[2]}`; zh=`半音阶相距大六度，左手 ${m[1]}、右手 ${m[2]}`; hand=false;}
+    else{en=`Chromatic contrary-motion scale, left hand on ${m[1]}, right hand on ${m[2]}`; zh=`半音阶反向，左手 ${m[1]}、右手 ${m[2]}`; hand=false;}
+  }
+  if(hand){en+=', '+H[1]; zh+=' · '+H[0];}
+  const a=c.plain?q.art:q.art==='stac'?'stac':q.art==='either'?art:null;
+  if(a){en+=', '+ARTS[a][1]; zh+=' · '+ARTS[a][0];}
+  return {en,zh};
+}
+function qSpeed(q){
+  const g=q.g, st=q.c.st; let b;
+  if(q.c.plain) b=q.art==='stac'?54:(g===7?46:52);
+  else if(st.kind==='third'||st.kind==='sixth'||(st.kind==='chrom'&&st.chrom==='sixth')) b=60;
+  else b=(['arp','dom7','dim7'].includes(st.kind)?SP_AR:SP_SC)[g-1];
+  return {bpm:b,txt:beatTxt(g,b)};
+}
+// unseen questions get a head start; each miss adds weight, each success takes some away
+function pickQ(pool,avoid){
+  let p=pool.filter(x=>!avoid||x.ri!==avoid.ri||x.ci!==avoid.ci); if(!p.length) p=pool;
+  const w=p.map(x=>{const s=DB.stats[x.id]; return s?Math.min(8,.5+1.5*s.d):2;});
+  let r=Math.random()*w.reduce((a,b)=>a+b,0);
+  for(let i=0;i<p.length;i++){r-=w[i]; if(r<=0) return p[i];}
+  return p[p.length-1];
+}
+let metT=null;
+function tick(){
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended')ac.resume();
+    const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+    o.type='square'; o.frequency.value=1500;
+    g.gain.setValueAtTime(.16,t); g.gain.exponentialRampToValueAtTime(.001,t+.05);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+.06);
+  }catch(e){}
+}
+function metStop(){clearInterval(metT); metT=null;}
+function say(){
+  try{
+    if(!('speechSynthesis' in window)||!Q.cur)return;
+    const u=new SpeechSynthesisUtterance(qText(Q.cur,Q.art).en.replace(/♯/g,' sharp').replace(/♭/g,' flat'));
+    u.lang='en-GB'; u.rate=.9; speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+function nextQ(){
+  metStop();
+  if(Q.mode==='mock'){
+    if(Q.idx>=Q.queue.length){Q.done=true; Q.cur=null; drawQ(); return;}
+    Q.cur=Q.queue[Q.idx];
+  }else Q.cur=pickQ(qItems(DB.grade),Q.cur);
+  Q.art=Q.cur.art==='either'?(Math.random()<.5?'leg':'stac'):Q.cur.art;
+  drawQ(); if(DB.speak) say();
+}
+function startQ(){
+  Q.done=false; Q.res=[]; Q.idx=0; Q.cur=null; Q.queue=[];
+  if(Q.mode==='mock'){
+    const items=qItems(DB.grade);
+    GR[DB.grade].rows.forEach((r,ri)=>{
+      const pool=items.filter(x=>x.ri===ri); let last=null;
+      for(let i=0;i<(r.chips.length>=4?2:1);i++){last=pickQ(pool,last); Q.queue.push(last);}
+    });
+  }
+  nextQ();
+}
+function markQ(ok){
+  const q=Q.cur; if(!q)return;
+  if(ok!==null){
+    const s=DB.stats[q.id]||(DB.stats[q.id]={r:0,w:0,d:0});
+    if(ok){s.r++; s.d=Math.max(0,s.d-1);}else{s.w++; s.d+=2;}
+    save();
+  }
+  if(Q.mode==='mock'){Q.res.push({q,art:Q.art,ok}); Q.idx++;}
+  nextQ();
+}
+function showAnswer(q){
+  if(q.c.plain)return;
+  metStop(); drawQ();
+  load(Object.assign({},q.c.st,FORMS[q.f]?{form:q.f}:{}));
+  setFocus(true);
+}
+function resetQ(){Q.cur=null; Q.done=false; Q.queue=[]; Q.res=[]; Q.confirm=false; metStop();}
+function drawQ(){
+  const g=DB.grade;
+  $('qgrade').innerHTML=[1,2,3,4,5,6,7,8].map(x=>`<button data-g="${x}" aria-pressed="${g===x}">${x} 级<small>Grade ${x}</small></button>`).join('');
+  $('qmode').innerHTML=[['random','随机抽查','Random'],['mock','模拟考试一轮','Mock exam']].map(([k,z,e])=>`<button data-mode="${k}" aria-pressed="${Q.mode===k}">${z}<small>${e}</small></button>`).join('');
+  $('qspeak').checked=!!DB.speak;
+  let h;
+  if(Q.done){
+    const ans=Q.res.filter(x=>x.ok!==null), right=ans.filter(x=>x.ok).length, wrong=Q.res.filter(x=>x.ok===false);
+    h=`<div class="label">模拟考试结果 · Mock exam result</div><div class="qen">${right} / ${Q.res.length}</div>
+      <div class="qzh">这一轮 ${Q.res.length} 题，弹对 ${right} 题${Q.res.length-ans.length?`，跳过 ${Q.res.length-ans.length} 题`:''}。 <span class="en">${right} of ${Q.res.length} right${Q.res.length-ans.length?`, ${Q.res.length-ans.length} skipped`:''}.</span></div>`;
+    if(wrong.length) h+='<div class="label" style="margin-top:8px">弹错的题 · Missed</div><div class="qwrong">'+wrong.map(x=>{const t=qText(x.q,x.art);
+      return `<div><b>${t.zh}</b><span class="en">${t.en}</span>${x.q.c.plain?'':`<button class="linkbtn" data-id="${x.q.id}">看指法 Show fingering</button>`}</div>`;}).join('')+'</div>';
+    h+=`<div class="qbtns"><button class="play" data-act="start">再来一轮 Another round</button></div>
+      <div class="qmeta">真实考试里考官抽多少题并不固定，这里每一类至少抽一题。 The number of requests in a real exam varies; this round takes at least one from every category.</div>`;
+  }else if(!Q.cur){
+    h=`<div class="qzh">${Q.mode==='mock'?`${g} 级模拟考试：每一类考试内容至少抽一题，最后给出结果。`:`${g} 级随机抽查：一题接一题，随时可以停。`}</div>
+      <div class="qmeta">${Q.mode==='mock'?`Grade ${g} mock exam: at least one request from every category, with a result at the end.`:`Grade ${g} random check: one request after another; stop whenever you like.`}</div>
+      <div class="qbtns"><button class="play" data-act="start">开始 Start</button></div>`;
+  }else{
+    const q=Q.cur, t=qText(q,Q.art), sp=qSpeed(q);
+    h=`<div class="label">${Q.mode==='mock'?`模拟考试 · 第 ${Q.idx+1} / ${Q.queue.length} 题 · Question ${Q.idx+1} of ${Q.queue.length}`:`${g} 级随机抽查 · Grade ${g} random check`}</div>
+      <div class="qen">${t.en}</div><div class="qzh">${t.zh}</div>
+      <div class="qmeta">${q.oct} 个八度 · 要求速度 ${sp.txt} · ${q.oct} octave${q.oct>1?'s':''}, guide speed ${sp.txt}</div>`;
+    if(q.r.note&&(q.c.plain||q.f==='choice')) h+=`<div class="qmeta">${q.r.note[0]} ${q.r.note[1]}</div>`;
+    h+=`<div class="qbtns"><button class="ghost" data-act="say">再读一遍 Read again</button>
+      <button class="ghost" data-act="met" aria-pressed="${!!metT}">${metT?'■ 停止节拍器 Stop metronome':`节拍器 Metronome ${sp.txt}`}</button>
+      ${q.c.plain?'':'<button class="ghost" data-act="ans">看指法 Show fingering</button>'}</div>
+      <div class="qbtns"><button class="mark ok" data-act="ok">✓ 弹对了 Got it</button><button class="mark no" data-act="no">✗ 弹错了 Missed it</button>
+      <button class="linkbtn" data-act="skip">跳过 Skip</button></div>`;
+  }
+  $('qcard').innerHTML=h;
+  // progress for this grade
+  const items=qItems(g); let seen=0,R=0,W=0;
+  const rows=GR[g].rows.map((row,ri)=>{const it=items.filter(x=>x.ri===ri); let a=0,b=0,s=0;
+    it.forEach(x=>{const z=DB.stats[x.id]; if(z){s++;a+=z.r;b+=z.w;}}); seen+=s;R+=a;W+=b; return {row,n:it.length,s,a,b};});
+  let s=`<div class="label">${g} 级掌握情况 · Grade ${g} progress</div>
+    <div>已抽到 ${seen} / ${items.length} 种题，弹对 ${R} 次，弹错 ${W} 次${R+W?`，正确率 ${Math.round(100*R/(R+W))}%`:''}。
+    <span class="en">${seen} of ${items.length} possible requests seen; ${R} right, ${W} missed${R+W?`, ${Math.round(100*R/(R+W))}% correct`:''}.</span></div>`;
+  s+=rows.map(x=>`<div class="qrow"><span>${x.row.zh} <span class="en">${x.row.en}</span></span>
+    <span class="bar"><i style="width:${x.a+x.b?Math.round(100*x.a/(x.a+x.b)):0}%"></i></span><span class="num">${x.a} ✓ ${x.b} ✗ · ${x.s}/${x.n}</span></div>`).join('');
+  const weak=items.filter(x=>DB.stats[x.id]&&DB.stats[x.id].d>0).sort((a,b)=>DB.stats[b.id].d-DB.stats[a.id].d).slice(0,6);
+  if(weak.length) s+=`<div class="label" style="margin-top:10px">最需要练 · Needs work</div><div class="schips">`
+    +weak.map(x=>x.c.plain?`<span class="kchip plain">${qText(x).zh}</span>`:`<button class="kchip" data-id="${x.id}">${qText(x).zh}</button>`).join('')+'</div>';
+  if(seen) s+=`<div><button class="linkbtn" data-act="clear">${Q.confirm?'再点一次确认清空 · Click again to confirm':`清空 ${g} 级的记录 · Clear the Grade ${g} record`}</button></div>`;
+  s+=`<div class="qmeta">记录只保存在这台设备的浏览器里。 Your record is kept in this browser on this device only.</div>`;
+  $('qstats').innerHTML=s;
+}
+$('quiz').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  const d=b.dataset;
+  if(d.act!=='clear') Q.confirm=false;
+  if(d.g){DB.grade=+d.g; save(); resetQ(); drawQ();}
+  else if(d.mode){Q.mode=d.mode; resetQ(); drawQ();}
+  else if(d.id){const q=qItems(DB.grade).find(x=>x.id===d.id); if(q) showAnswer(q);}
+  else if(d.act==='start') startQ();
+  else if(d.act==='say') say();
+  else if(d.act==='met'){if(metT) metStop(); else{tick(); metT=setInterval(tick,60000/qSpeed(Q.cur).bpm);} drawQ();}
+  else if(d.act==='ans') showAnswer(Q.cur);
+  else if(d.act==='ok') markQ(true);
+  else if(d.act==='no') markQ(false);
+  else if(d.act==='skip') markQ(null);
+  else if(d.act==='clear'){
+    if(!Q.confirm){Q.confirm=true; drawQ();}
+    else{Object.keys(DB.stats).forEach(k=>{if(k.startsWith(DB.grade+'|')) delete DB.stats[k];}); save(); Q.confirm=false; drawQ();}
+  }
+});
+$('qspeak').addEventListener('change',e=>{DB.speak=e.target.checked; save(); if(!DB.speak&&'speechSynthesis' in window) speechSynthesis.cancel();});
+
+// ---------- audio + playback
+let ac=null,timer=null,playing=false;
+function tone(m,vol){
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended')ac.resume();
+    const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+    o.type='triangle'; o.frequency.value=440*Math.pow(2,(m-69)/12);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol||.28,t+.01); g.gain.exponentialRampToValueAtTime(.001,t+.7);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+.75);
+  }catch(e){}
+}
+function clearOn(){document.querySelectorAll('.kb .on').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.steps .now').forEach(e=>e.classList.remove('now'));}
+function flash(r,l,j,tg){clearOn();
+  const a=$('kb-rh').querySelector(`[data-midi="${r}"]`), b=$('kb-lh').querySelector(`[data-midi="${l}"]`);
+  if(a)a.classList.add('on'); if(b)b.classList.add('on');
+  if(tg&&tg.rh[j]){
+    [tg.rh[j].midi,tg.lh[j].midi].forEach(m=>{const k=$('kb-tg').querySelector(`[data-midi="${m}"]`); if(k)k.classList.add('on');});
+    document.querySelectorAll(`.steps [data-j="${j}"]`).forEach(e=>e.classList.add('now'));
+    const c=$('tg-tbl').querySelector(`th[data-j="${j}"]`), sc=c&&c.closest('.tscroll');
+    if(sc&&sc.scrollWidth>sc.clientWidth) sc.scrollLeft=c.offsetLeft-sc.clientWidth/2;
+  }}
+function stop(){playing=false; clearTimeout(timer); clearOn(); $('play').textContent='▶ 播放 Play';}
+function play(){
+  if(playing){stop();return;}
+  playing=true; $('play').textContent='■ 停止 Stop';
+  if(smallScreen()) setFocus(true);
+  else if(!focusOn){
+    const a=$('kb-rh').getBoundingClientRect(), b=$('kb-lh').getBoundingClientRect();
+    if(a.top<0||b.bottom>window.innerHeight) go('controls');
+  }
+  const mel=S.kind==='scale'&&S.minor&&S.form==='melodic';
+  if(mel&&S.dir!=='asc'){S.dir='asc'; render();}
+  const per=current().P.n;
+  // the together view shows two octaves; later octaves repeat the same fingers, so fold the step back into it
+  const fold=i=>{while(i>2*per)i-=per; return i;};
+  const pairs=(dir)=>{const c=current(); return c.rh.map((n,i)=>({r:n.midi,l:c.lh[i].midi,dir,j:fold(i)}));};
+  const up=pairs('asc'); let down=up;
+  if(mel){S.dir='desc'; down=pairs('desc'); S.dir='asc';}
+  const seq=up.concat(down.slice().reverse().slice(1));
+  let i=0;
+  (function step(){
+    if(!playing)return;
+    if(i>=seq.length){stop();return;}
+    const s=seq[i++];
+    if(mel&&S.dir!==s.dir){S.dir=s.dir; render();}
+    flash(s.r,s.l,s.j,current().tg);
+    if(s.r===s.l) tone(s.r); else{tone(s.r,.2); tone(s.l,.2);}
+    timer=setTimeout(step,60000/+$('tempo').value);
+  })();
+}
+$('play').addEventListener('click',play);
+
+function render(){
+  const cur=current();
+  drawCircle(); drawKeyCard(); drawPickers(); drawSummary(cur);
+  drawKb('kb-rh',cur,'rh'); drawKb('kb-lh',cur,'lh'); drawTogether(cur);
+  drawTable(cur); drawTips(cur); drawTempo();
+}
+window.__scales={S,current,render,nm,GR,isBlack,qItems,qText,qSpeed,Q,DB,setFocus,gradeSpeeds};
+drawSyllabus(); drawChart(); drawQ(); render();
+})();
+</script>
+
+
+</body>
+</html>
