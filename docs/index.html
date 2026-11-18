@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="ABRSM 钢琴音阶与琶音 1–8 级备考：指法、合手键盘、速度参考、记忆总表和抽查。">
+<meta name="theme-color" content="#17202e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="音阶备考">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
 <title>ABRSM 音阶琶音备考</title>
@@ -1490,5 +1498,6 @@ drawSyllabus(); drawChart(); drawQ(); render();
 </script>
 
 
+<script>if("serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));</script>
 </body>
 </html>

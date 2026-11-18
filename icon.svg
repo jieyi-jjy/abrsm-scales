@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- full-bleed square: iOS and Android round the corners themselves; the keys stay inside the central safe zone -->
+  <rect width="512" height="512" fill="#17202e"/>
+  <!-- four white keys -->
+  <g fill="#fbfbf8">
+    <rect x="100" y="128" width="74" height="256" rx="10"/>
+    <rect x="180" y="128" width="74" height="256" rx="10"/>
+    <rect x="260" y="128" width="74" height="256" rx="10"/>
+    <rect x="340" y="128" width="74" height="256" rx="10"/>
+  </g>
+  <!-- black keys: one sharp (orange), one plain -->
+  <rect x="152" y="128" width="50" height="150" rx="7" fill="#f08a45"/>
+  <rect x="232" y="128" width="50" height="150" rx="7" fill="#2b3442"/>
+  <!-- finger badges like the app: green thumb 1, dark 3 -->
+  <circle cx="297" cy="334" r="28" fill="#0b7a6e"/>
+  <path d="M291 318 L300 312 L304 312 L304 356 L296 356 L296 323 L291 326 Z" fill="#ffffff"/>
+  <circle cx="377" cy="334" r="28" fill="#26313f"/>
+  <path d="M366 318 Q377 309 388 316 Q394 323 386 332 Q395 337 390 348 Q380 359 365 350 L369 344 Q379 350 383 344 Q386 338 376 336 L373 336 L373 330 L377 330 Q385 327 382 321 Q377 316 369 323 Z" fill="#ffffff"/>
+</svg>
