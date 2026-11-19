@@ -110,6 +110,7 @@ button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--thumb);outline-offset:2px}
 
 .pick{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+[hidden]{display:none!important}
 .pickrow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
 .pickrow>.label{flex:0 0 190px}
 @media (max-width:640px){.pickrow>.label{flex-basis:100%}}
@@ -1181,11 +1182,12 @@ $('focus').addEventListener('click',()=>setFocus(!focusOn));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&focusOn) setFocus(false);});
 
 // ---------- memory chart
-const MTABS=[['maj','大调音阶','Major scales'],['min','和声小调音阶','Harmonic minors'],['amaj','大调琶音','Major arpeggios'],['amin','小调琶音','Minor arpeggios'],
+const MTABS=[['maj','大调音阶','Major scales'],['min','和声小调音阶','Harmonic minors'],['mmin','旋律小调音阶','Melodic minors'],['amaj','大调琶音','Major arpeggios'],['amin','小调琶音','Minor arpeggios'],
   ['dom7','属七','Dominant 7ths'],['dim7','减七','Diminished 7ths'],['whole','全音阶','Whole-tone'],['chrom','半音阶','Chromatic']];
 const MHINT={
   maj:['拇指从不弹黑键。记住每只手的 4 指落在哪个音，其余手指就自动排好了。B♭、E♭、A♭ 大调右手起音用 2 指（A♭ 是 2 3 起）；B♭、E♭、A♭、G♭ 大调左手最高音用 2 指。','Thumbs never play black keys. Remember where each hand\'s 4th finger goes and the other fingers fall into place. B♭, E♭ and A♭ major start the right hand on finger 2 (A♭: 2 3); B♭, E♭, A♭ and G♭ major take the left hand\'s top note with finger 2.'],
   min:['原则：每个小调都和同名大调用同样的指法（A 小调 = A 大调，C♯ 小调 = D♭ 大调……），自然、和声、旋律小调都一样。这里列的是和声小调，↑ 是升高的第 7 级。','Rule: every minor uses the same fingering as the major on the same tonic (A minor = A major, C♯ minor = D♭ major…), in natural, harmonic and melodic forms alike. Harmonic minors shown; ↑ marks the raised 7th.'],
+  mmin:['旋律小调上行升高第 6、7 级（↑），下行还原成自然小调。指法和同名大调一样，上行下行用同一套手指：下行时把指法从右往左读。','Melodic minor raises the 6th and 7th going up (↑) and returns to the natural minor coming down. Fingering is the same as the major on the same tonic, and the same fingers serve both directions: read the fingering right to left coming down.'],
   amaj:['原位琶音。白键起音：右手 1 2 3 (5)，左手 5 4 2 1 或 5 3 2 1。黑键起音：让拇指落在白键上。','Root position. From a white key: right hand 1 2 3 (5), left hand 5 4 2 1 or 5 3 2 1. From a black key: put the thumb on a white key.'],
   amin:['原位琶音。和大调琶音一样的思路：先找拇指落在哪个白键。','Root position. Same idea as the major arpeggios: find the white key the thumb lands on first.'],
   dom7:['第一列是调名。属七和弦从这个调的第 5 级音开始，弹完解决到主音。','The first column is the key. Its dominant seventh starts on the 5th degree and resolves onto the tonic at the end.'],
@@ -1201,6 +1203,7 @@ function memRows(){
     return {label:keyZh(t,minor),t,minor,P:fn(t),st:Object.assign({pos,minor,enh:false,inv:0,form:'harmonic'},ext)};});
   const st=(fn,kind)=>N12.map((t,pc)=>({label:nm(t),P:fn(pc),st:{kind,start:pc}}));
   return MT==='maj'?key(false,t=>scaleP(t,false),{kind:'scale'}):MT==='min'?key(true,t=>scaleP(t,true,'harmonic','asc'),{kind:'scale'}):
+    MT==='mmin'?key(true,t=>scaleP(t,true,'melodic','asc'),{kind:'scale',form:'melodic',dir:'asc'}):
     MT==='amaj'?key(false,t=>triadP(t,false,0),{kind:'arp'}):MT==='amin'?key(true,t=>triadP(t,true,0),{kind:'arp'}):
     MT==='dom7'?key(false,t=>dom7P(t,false),{kind:'dom7'}):MT==='dim7'?st(dimP,'dim7'):st(wholeP,'whole');
 }
@@ -1213,7 +1216,7 @@ function drawChart(){
     $('mtbl').innerHTML='<thead><tr><th>音 Note</th>'+P.sp.map(n=>`<th>${nm(n)}</th>`).join('')+'</tr></thead><tbody>'+row('右手 RH','rh')+row('左手 LH','lh')+'</tbody>';
     MROWS=[]; return;
   }
-  const rows=MROWS=memRows(), scale=MT==='maj'||MT==='min', start=MT==='dim7'||MT==='whole';
+  const rows=MROWS=memRows(), scale=MT==='maj'||MT==='min'||MT==='mmin', start=MT==='dim7'||MT==='whole';
   const tint=h=>{const cnt={}; rows.forEach(r=>{const p=fingers(r.P,h).join(''); cnt[p]=(cnt[p]||0)+1;});
     const top=Object.keys(cnt).filter(p=>cnt[p]>1).sort((a,b)=>cnt[b]-cnt[a]).slice(0,3);
     return p=>{const i=top.indexOf(p); return i<0?'':' g'+(i+1);};};
@@ -1227,7 +1230,11 @@ function drawChart(){
     const P=r.P;
     h+=`<tr><td><button class="linkbtn mkey" data-i="${i}">${r.label}</button></td>`;
     if(scale){const sg=signature(r.t,r.minor); h+=`<td class="sg ${sg.n?(sg.sharps?'s':'f'):''}">${sg.n?sg.n+(sg.sharps?'♯':'♭'):'0'}</td>`;}
-    h+='<td class="mn">'+P.sp.map((n,j)=>`<span class="${cls(n.a)}">${nm(n)}${MT==='min'&&j===6?'↑':''}</span>`).join(' ')+'</td>';
+    const up=MT==='min'?[6]:MT==='mmin'?[5,6]:[];
+    const notes=sp=>sp.map((n,j)=>`<span class="${cls(n.a)}">${nm(n)}${up.includes(j)?'↑':''}</span>`).join(' ');
+    h+='<td class="mn">'+(MT==='mmin'
+      ?`<small>上行 Up</small> ${notes(P.sp)} ${notes([P.sp[0]])}<br><small>下行 Down</small> ${spell(r.t,IV.natural).concat([r.t]).reverse().map(n=>`<span class="${cls(n.a)}">${nm(n)}</span>`).join(' ')}`
+      :notes(P.sp))+'</td>';
     h+=fcell(r,'rh',tr)+fcell(r,'lh',tl);
     if(scale){
       const both=P.sp.filter((_,j)=>P.rh[j]===1&&P.lh[j]===1).map(n=>`<span class="${cls(n.a)}">${nm(n)}</span>`).join(' ')||'—';
