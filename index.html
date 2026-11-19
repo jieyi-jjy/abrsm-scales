@@ -192,6 +192,8 @@ table.mem td.fs{font-family:var(--display);font-weight:600;font-size:15.5px;lett
 table.mem td.fs .t{color:var(--thumb)}
 table.mem td.fs .f4{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
 table.mem td.fs{white-space:nowrap}
+table.mem td.fs.alt{background:var(--g3);line-height:1.5}
+table.mem td.fs small{font-family:var(--sans,inherit);font-weight:500;font-size:11px;letter-spacing:0;color:var(--flat)}
 table.mem td.fs .oct{display:inline-block;width:1.5px;height:1.05em;background:var(--muted);vertical-align:-.15em;margin:0 .3em 0 .1em}
 table.mem td.fs .mid,.midkey{outline:1.5px solid currentColor;outline-offset:1px;border-radius:3px;padding:0 1px;margin-right:.2em}
 table.mem td.g1{background:var(--g1)} table.mem td.g2{background:var(--g2)} table.mem td.g3{background:var(--g3)}
@@ -551,11 +553,17 @@ const MAJ_F={0:STD,7:STD,2:STD,9:STD,4:STD,11:BTYPE,5:FTYPE,
   8:{rh:[3,4,1,2,3,1,2],rhStart:2,rhHead:[2,3],lh:[3,2,1,4,3,2,1],lhEnd:2},
   3:{rh:[3,1,2,3,4,1,2],rhStart:2,lh:[3,2,1,4,3,2,1],lhEnd:2},
   10:{rh:[4,1,2,3,1,2,3],rhStart:2,lh:[3,2,1,4,3,2,1],lhEnd:2}};
+// Exceptions where the major's left hand would put the thumb on a black key in the minor:
+// E♭ and B♭ minor LH (all forms); G♯ minor LH over the natural-minor notes (natural, and melodic coming down):
+// 3 2 1 3 2 1 4 in the lower octaves, top octave … 3 2 (read top down: 2 3 1 2 3 1 2 | 3 4 1 2 3 1 2 | 3).
+const MIN_FIX={3:{lh:[2,1,4,3,2,1,3],lhEnd:0},10:{lh:[2,1,3,2,1,4,3],lhEnd:0}};
+const MIN_NAT_FIX={8:{lh:[3,2,1,3,2,1,4],lhEnd:0,lhTail:[3,2]}};
 // finger for note i (counted from the lowest note, 0..last) of a pattern laid out from its tonic
 function fAt(P,h,i,last){
-  const head=P[h+'Head'];
+  const head=P[h+'Head'], tail=P[h+'Tail'];
   if(i===0&&P[h+'Start']) return P[h+'Start'];
   if(head&&i<head.length) return head[i];
+  if(tail&&last>=0&&i>last-tail.length) return tail[i-(last-tail.length+1)];
   if(i===last&&P[h+'End']) return P[h+'End'];
   return P[h][i%P.n];
 }
@@ -603,7 +611,8 @@ function scaleP(t,minor,form,dir){
   if(!minor){iv=IV.major;f=MAJ_F[pc];}
   else{
     iv=form==='melodic'?(dir==='asc'?IV.melodic:IV.natural):IV[form];
-    f=MAJ_F[pc];
+    const nat=form==='natural'||(form==='melodic'&&dir!=='asc');
+    f=Object.assign({},MAJ_F[pc],MIN_FIX[pc]||{},nat?MIN_NAT_FIX[pc]||{}:{});
   }
   return Object.assign({n:7,pc,iv,sp:spell(t,iv)},f);
 }
@@ -974,6 +983,13 @@ function drawTable(cur){
   if(P.lhStart) foot.push(`左手：只有最低的 ${a} 用 ${P.lhStart} 指，中间经过 ${a} 时用 ${P.lh[0]} 指。 LH: only the very bottom ${a} takes ${P.lhStart}; passing through ${a} uses ${P.lh[0]}.`);
   if(P.rhHead){const b=nm(P.sp[1]); foot.push(`右手：起音 ${a} 用 ${P.rhHead[0]} 指、第二个音 ${b} 用 ${P.rhHead[1]} 指；之后每次回到 ${a} 用 ${P.rh[0]} 指，${b} 用 ${P.rh[1]} 指。 RH: start ${a} with ${P.rhHead[0]} and ${b} with ${P.rhHead[1]}; afterwards ${a} takes ${P.rh[0]} and ${b} takes ${P.rh[1]}.`);}
   else if(P.rhStart) foot.push(`右手：起音用 ${P.rhStart} 指，之后每次回到 ${a} 用 ${P.rh[0]} 指。 RH: start on ${P.rhStart}; afterwards ${a} takes ${P.rh[0]}.`);
+  if(P.lhTail){const b=nm(P.sp[n-1]); foot.push(`左手：最上面一个八度里 ${b} 用 ${P.lhTail[0]} 指、最高的 ${a} 用 ${P.lhTail[1]} 指；其余八度 ${b} 用 ${P.lh[n-1]} 指。 LH: in the top octave ${b} takes ${P.lhTail[0]} and the top ${a} takes ${P.lhTail[1]}; in the other octaves ${b} takes ${P.lh[n-1]}.`);}
+  if(K==='scale'&&S.minor&&S.form==='melodic'){
+    const t=tonicAt(S.pos,true,S.enh), up=scaleP(t,true,'melodic','asc'), dn=scaleP(t,true,'melodic','desc');
+    const fl=Q=>[...Array(15).keys()].map(i=>fAt(Q,'lh',i,14)).join(''), fr=Q=>[...Array(15).keys()].map(i=>fAt(Q,'rh',i,14)).join('');
+    const hz=[fr(up)!==fr(dn)?'右手':'',fl(up)!==fl(dn)?'左手':''].filter(Boolean), he=hz.map(x=>x==='右手'?'right hand':'left hand');
+    if(hz.length) foot.push(`⚠ 这个调的旋律小调${hz.join('、')}上行和下行指法不同，切换"上行／下行"分别看。 ⚠ In this melodic minor the ${he.join(' and ')} fingering differs going up and coming down; switch Ascending / Descending to see each.`);
+  }
   if(P.lhEnd) foot.push(`左手：只有最高的 ${a} 用 ${P.lhEnd} 指，中间经过 ${a} 时用 ${P.lh[0]} 指。 LH: only the very top ${a} takes ${P.lhEnd}; passing through ${a} uses ${P.lh[0]}.`);
   if(!P.rhEnd&&!P.rhStart&&n===7&&P.rh[0]!==2) foot.push('右手从黑键开始：有些教材第一个音印成 2 指，之后和这里一样。 RH starts on a black key: some editions print finger 2 for the first note, then continue as shown.');
   if(cur.L.lh[1]<cur.L.lh[0]) foot.push('反向时，左手往下弹：把"左手"这一行从右往左读。 In contrary motion the left hand goes down: read the LH row from right to left.');
@@ -1186,8 +1202,8 @@ const MTABS=[['maj','大调音阶','Major scales'],['min','和声小调音阶','
   ['dom7','属七','Dominant 7ths'],['dim7','减七','Diminished 7ths'],['whole','全音阶','Whole-tone'],['chrom','半音阶','Chromatic']];
 const MHINT={
   maj:['拇指从不弹黑键。记住每只手的 4 指落在哪个音，其余手指就自动排好了。B♭、E♭、A♭ 大调右手起音用 2 指（A♭ 是 2 3 起）；B♭、E♭、A♭、G♭ 大调左手最高音用 2 指。','Thumbs never play black keys. Remember where each hand\'s 4th finger goes and the other fingers fall into place. B♭, E♭ and A♭ major start the right hand on finger 2 (A♭: 2 3); B♭, E♭, A♭ and G♭ major take the left hand\'s top note with finger 2.'],
-  min:['原则：每个小调都和同名大调用同样的指法（A 小调 = A 大调，C♯ 小调 = D♭ 大调……），自然、和声、旋律小调都一样。这里列的是和声小调，↑ 是升高的第 7 级。','Rule: every minor uses the same fingering as the major on the same tonic (A minor = A major, C♯ minor = D♭ major…), in natural, harmonic and melodic forms alike. Harmonic minors shown; ↑ marks the raised 7th.'],
-  mmin:['旋律小调上行升高第 6、7 级（↑），下行还原成自然小调。指法和同名大调一样，上行下行用同一套手指：下行时把指法从右往左读。','Melodic minor raises the 6th and 7th going up (↑) and returns to the natural minor coming down. Fingering is the same as the major on the same tonic, and the same fingers serve both directions: read the fingering right to left coming down.'],
+  min:['原则：每个小调都和同名大调用同样的指法（A 小调 = A 大调，C♯ 小调 = D♭ 大调……）。例外是左手拇指会落到黑键的地方：E♭ 小调左手 2 1 4 3 2 1 3，B♭ 小调左手 2 1 3 2 1 4 3；G♯ 小调弹自然小调的音时（自然小调、旋律小调下行）左手另有指法。这里列的是和声小调，↑ 是升高的第 7 级。','Rule: every minor uses the same fingering as the major on the same tonic (A minor = A major, C♯ minor = D♭ major…). Exceptions are where the left thumb would land on a black key: E♭ minor LH 2 1 4 3 2 1 3, B♭ minor LH 2 1 3 2 1 4 3; G♯ minor LH changes over the natural-minor notes (natural form, melodic coming down). Harmonic minors shown; ↑ marks the raised 7th.'],
+  mmin:['旋律小调上行升高第 6、7 级（↑），下行还原成自然小调。指法和同名大调一样，上行下行一般用同一套手指：下行时把指法从右往左读。特殊：G♯ 旋律小调左手上行 321 4321 321 4321 2，下行（从最高音往下）231 231 2341 231 23，表里单独列出。','Melodic minor raises the 6th and 7th going up (↑) and returns to the natural minor coming down. Fingering is the same as the major on the same tonic, and usually the same fingers serve both directions: read right to left coming down. Exception: G♯ melodic minor, left hand, goes up 321 4321 321 4321 2 and comes down (from the top) 231 231 2341 231 23; its row shows both.'],
   amaj:['原位琶音。白键起音：右手 1 2 3 (5)，左手 5 4 2 1 或 5 3 2 1。黑键起音：让拇指落在白键上。','Root position. From a white key: right hand 1 2 3 (5), left hand 5 4 2 1 or 5 3 2 1. From a black key: put the thumb on a white key.'],
   amin:['原位琶音。和大调琶音一样的思路：先找拇指落在哪个白键。','Root position. Same idea as the major arpeggios: find the white key the thumb lands on first.'],
   dom7:['第一列是调名。属七和弦从这个调的第 5 级音开始，弹完解决到主音。','The first column is the key. Its dominant seventh starts on the 5th degree and resolves onto the tonic at the end.'],
@@ -1221,8 +1237,11 @@ function drawChart(){
     const top=Object.keys(cnt).filter(p=>cnt[p]>1).sort((a,b)=>cnt[b]-cnt[a]).slice(0,3);
     return p=>{const i=top.indexOf(p); return i<0?'':' g'+(i+1);};};
   const tr=tint('rh'), tl=tint('lh');
-  const fcell=(r,h,tf)=>{const f=fingers(r.P,h), n=r.P.n;
-    return `<td class="fs${tf(f.join(''))}">${f.map((x,i)=>`${i===n?'<i class="oct"></i>':''}<span class="${[x===1?'t':x===4&&scale?'f4':'',i===n?'mid':''].join(' ').trim()}">${x}</span>`).join('')}</td>`;};
+  const fspans=(f,n)=>f.map((x,i)=>`${i===n?'<i class="oct"></i>':''}<span class="${[x===1?'t':x===4&&scale?'f4':'',i===n?'mid':''].join(' ').trim()}">${x}</span>`).join('');
+  const fcell=(r,h,tf)=>{const f=fingers(r.P,h), n=r.P.n, d=r.D&&fingers(r.D,h);
+    if(d&&d.join('')!==f.join('')) return `<td class="fs alt"><small>上行 Up</small><br>${fspans(f,n)}<br><small>下行 Down（从右往左读）</small><br>${fspans(d,n)}</td>`;
+    return `<td class="fs${tf(f.join(''))}">${fspans(f,n)}</td>`;};
+  if(MT==='mmin') rows.forEach(r=>{r.D=scaleP(r.t,true,'melodic','desc');});
   const on=(P,arr,k)=>P.sp.filter((_,i)=>arr[i]===k).map(n=>`<span class="${cls(n.a)}">${nm(n)}</span>`).join(' ')||'—';
   let h='<thead><tr>'+th(start?'起始音':'调',start?'Start':'Key')+(scale?th('调号','Signature'):'')+th('音','Notes')+th('右手','RH')+th('左手','LH')
     +(scale?th('右手 4 指','RH 4th on')+th('左手 4 指','LH 4th on')+th('两手拇指同落','Thumbs together on'):th('右手拇指','RH thumb on')+th('左手拇指','LH thumb on'))+'</tr></thead><tbody>';
